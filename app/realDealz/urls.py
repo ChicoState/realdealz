@@ -16,6 +16,10 @@ Including another URLconf
 from django.conf.urls import url
 from django.contrib import admin
 
+from realDealz import views as home
+
+
 urlpatterns = [
+    url(r'^', home.index, name='index'),
     url(r'^admin/', admin.site.urls),
 ]

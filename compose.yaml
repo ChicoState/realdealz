@@ -5,3 +5,5 @@ services:
       target: builder
     ports: 
       - '8000:8000'
+    volumes:
+      - ./app:/app
