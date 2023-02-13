@@ -1,4 +1,5 @@
 # realdealz
+[![Django CI](https://github.com/ChicoState/realdealz/actions/workflows/django.yml/badge.svg)](https://github.com/ChicoState/realdealz/actions/workflows/django.yml)
 
 ## Compose sample application
 
