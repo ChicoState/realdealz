@@ -33,7 +33,7 @@ SECRET_KEY = env('SECRET_KEY',
 
 # SECURITY WARNING: don't run with debug turned on in production!
 # DEBUG = env.bool('DEBUG', True)
-DEBUG = False
+DEBUG = True
 
 ALLOWED_HOSTS = env.list("ALLOWED_HOSTS", ("localhost", "127.0.0.1"))
 
@@ -41,13 +41,13 @@ ALLOWED_HOSTS = env.list("ALLOWED_HOSTS", ("localhost", "127.0.0.1"))
 # Application definition
 
 INSTALLED_APPS = [
+    'realDealz.apps.realDealzConfig',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-
 ]
 
 MIDDLEWARE = [
