@@ -1,0 +1,13 @@
+{% block title%}
+{{ title }}
+{% endblock %}
+
+{% block content %}
+ <form action="/home/" method="post">
+      {% csrf_token %}
+    </form>
+   <h1> {{ msg }}</h1>
+    <a href="/"> Home</a>
+    <h2 class= "font">this is the home page for now</h2>
+  
+{% endblock %}
