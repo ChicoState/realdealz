@@ -1,5 +1,10 @@
 from django.http import HttpResponse
+from django.shortcuts import render, redirect
 
 
-def index(request):
-    return HttpResponse("Hello, world. everyone ")
+def home(request):
+    context ={
+        'title': 'CSCI 430',
+        'msg': 'Hello World',
+    }
+    return render(request, "home.html",context=context)
