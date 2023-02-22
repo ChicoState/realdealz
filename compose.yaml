@@ -5,5 +5,6 @@ services:
       target: builder
     ports: 
       - '8000:8000'
+    # This Is for development only so you dont have to rebuild the image every time you make a change
     volumes:
       - ./app:/app
