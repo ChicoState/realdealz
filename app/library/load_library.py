@@ -20,6 +20,7 @@ class Library:
         print(self.auth)
         return
     
+    # Decorator to check if auth token is expired
     def val_auth(self, func):
         def inner(*args, **kwargs):
             if dt.datetime.now().timestamp() - self.auth["request_time"] > self.auth["expires_in"]:
