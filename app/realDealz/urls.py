@@ -20,6 +20,9 @@ from realDealz import views as home
 
 
 urlpatterns = [
-    path('', home.home, name='index'),
+    path('home/', home.home, name='home'),
+    path('catalog/', home.catalog.as_view(), name='catalog'),
+    path('about/', home.about, name='about'),
+    path('contact/', home.contact, name='contact'),
     path('admin/', admin.site.urls),
 ]
