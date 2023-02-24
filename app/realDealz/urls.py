@@ -21,7 +21,10 @@ from realDealz import views as home
 #from library import views as library_views #for library in template folder
 #kinda confused why templates also has a urls page
 urlpatterns = [
-    path('', home.home, name='index'),
+    path('home/', home.home, name='home'),
+    path('catalog/', home.catalog.as_view(), name='catalog'),
+    path('about/', home.about, name='about'),
+    path('contact/', home.contact, name='contact'),
     path('admin/', admin.site.urls),
     #path('', ), #for app
     #path('', ) #for lib
