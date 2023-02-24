@@ -57,15 +57,9 @@ $ docker compose down
 
 ## Changelog 
 
-2/18/2023
+Dockerfile: Added STATIC_URL = '/static/' and MEDIA_URL = '/media/' for image support
 
-Added migration folder (Needed to make updates to database)
+models.py: Created more features for a entry in Game
 
-Added models.py (Initialize the models and their parameters)
-
-Added apps.py (Allows INSTALLED_APPS to use databases)
-
-Added admin.py (Add models to see in admin mode)
-
-Edited INSTALLED_APPS in settings.py to acknowledge database
+urls.py: Added catalog link
 
