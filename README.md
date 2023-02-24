@@ -1,71 +1,9 @@
 # realdealz
 [![Django CI](https://github.com/ChicoState/realdealz/actions/workflows/django.yml/badge.svg)](https://github.com/ChicoState/realdealz/actions/workflows/django.yml)
 
-# How to develop this project locally with docker compose
+[Development Guide]: Docs/development.md
+see Development Guide for more details on how to develop this project.
 
-```
-$ docker compose up
-Creating network "django_default" with the default driver
-Building web
-Step 1/6 : FROM python:3.7-alpine
-...
-...
-Status: Downloaded newer image for python:3.7-alpine
-Creating django_web_1 ... done
-```
-
-In order to test python or parts of the application from within the container you can use the following commands:
-__Please note that in this example realdealz-web-1 is the name of the container, you can find the name of the container by running `docker ps`__
-
-`docker exec -it realdealz-web-1 ash`
-- This Will open a shell in the container and you can run commands from there like a normal shell
-- for using shell commands like `ls` or `cd`
-
-`docker exec -it realdealz-web-1 ipython`
-- This will open an interactive python shell in the container 
-- for using a smart python shell
-
-
-## Expected Results
-```
-❯ docker compose up
-[+] Running 2/2
- ⠿ Network realdealz_default  Created                                             0.0s
- ⠿ Container realdealz-web-1  Created                                             0.0s
-Attaching to realdealz-web-1
-realdealz-web-1  | Watching for file changes with StatReloader
-```
-
-if you want to force a rebuild of the container you can use the `--build` flag
-```
-docker compose up --build 
-``` 
-i.e. 
-1. Make a change to the requirements.txt file
-2. use ctrl+c to stop the docker compose
-3. run `docker compose up --build` to rebuild the container
-
-
-After the application starts, navigate to `http://localhost:8000` in your web browser:
-
-## When you are done
-Stop and remove the containers
-```
-$ docker compose down
-```
-
-
-## Changelog 
-
-2/18/2023
-
-Added migration folder (Needed to make updates to database)
-
-Added models.py (Initialize the models and their parameters)
-
-Added apps.py (Allows INSTALLED_APPS to use databases)
-
-Added admin.py (Add models to see in admin mode)
-
-Edited INSTALLED_APPS in settings.py to acknowledge database
+[Changelog]: Docs/changelog.md
+see Changelog for more details on the development progress of this project.
 
