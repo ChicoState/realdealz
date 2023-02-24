@@ -57,9 +57,12 @@ $ docker compose down
 
 ## Changelog 
 
-Dockerfile: Added STATIC_URL = '/static/' and MEDIA_URL = '/media/' for image support
+urls.py: Added support for About Us, Contact, and Catalog pages for the website
 
-models.py: Created more features for a entry in Game
+views.py: Used a generic listview for the catalog and added support for the other pages
 
-urls.py: Added catalog link
+models.py: Added new features. (Note: Still need to add image support)
 
+Added templates to library folder and made their urls functional
+
+The catalog page now shows results from our database
