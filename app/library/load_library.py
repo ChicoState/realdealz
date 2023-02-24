@@ -46,6 +46,17 @@ class Library:
             log.error('Could not get auth token')
         return r
 
+    def get_game_slice(self):
+        # HTTP GET request to get game slice
+        log.info("Getting game slice")
+        http = urllib3.PoolManager()
+        gameSliceURL = "https://api.twitch.tv/helix/games/top"
+        r = json.loads(http.request(
+            'GET',
+            gameSliceURL,
+            headers={"Authorization": self.auth["auth"]}
+        ).data)
+        return r
 
 if __name__ == "__main__":
     library = Library()
