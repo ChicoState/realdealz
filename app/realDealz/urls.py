@@ -17,9 +17,12 @@ from django.conf.urls import url
 from django.contrib import admin
 from django.urls import path, include
 from realDealz import views as home
-
-
+#from app import views as app_views #for app in template folder left commented to rename
+#from library import views as library_views #for library in template folder
+#kinda confused why templates also has a urls page
 urlpatterns = [
     path('', home.home, name='index'),
     path('admin/', admin.site.urls),
+    #path('', ), #for app
+    #path('', ) #for lib
 ]
