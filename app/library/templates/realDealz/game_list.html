@@ -1,0 +1,19 @@
+{% extends "search.html" %}
+
+{% block content %}
+  <h1>Deals List</h1>
+  {% if game_list %}
+  <ul>
+    {% for Game in game_list %}
+      <li>
+        <p>Title: {{ Game.title }}</p>
+        <p>Price: {{ Game.price }}</p>
+		<p>Platform: {{ Game.platform }}</p>
+		<p>Genre: {{ Game.genre }}</p>
+      </li>
+    {% endfor %}
+  </ul>
+  {% else %}
+    <p>There are no deals available.</p>
+  {% endif %}
+{% endblock %}
