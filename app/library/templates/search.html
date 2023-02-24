@@ -4,22 +4,15 @@
 
 <head>
 
+<link rel="stylesheet" type="text/css" href="{% static 'css/main.css' %}">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<style>
+* {box-sizing: border-box;}
   <link rel="stylesheet" type="text/css" href="{% static 'css/main.css' %}">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <style>
-    * {
-      box-sizing: border-box;
-    }
-
-    body {
-      margin: 0;
-      font-family: Arial, Helvetica, sans-serif;
-    }
-  </style>
 </head>
 
 <body>
-
   <div class="topnav">
     <a href="{% url 'home' %}">Home</a>
     <a href="{% url 'catalog' %}">Catalog</a>
@@ -31,8 +24,6 @@
         <button type="submit">Search</button>
       </form>
     </div>
-  </div>
-
 </body>
 
 </html>

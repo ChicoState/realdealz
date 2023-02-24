@@ -1,9 +1,12 @@
 {%extends 'search.html'%}
 {% load static %}
+{% block title%}
+{{ title }}
+{% endblock %}
 
 {% block content %}
-<h1> {{ msg }}</h1>
-<p class>this is the home page for now</p>
-
+   <h1> {{ msg }}</h1>
+    <h2 class= "font">this is the home page for now</h2>
+  
 
 {% endblock %}
