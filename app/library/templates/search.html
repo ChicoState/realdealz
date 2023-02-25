@@ -3,27 +3,67 @@
 <html>
 
 <head>
-
+  <meta charset="UTF-8">
 <link rel="stylesheet" type="text/css" href="{% static 'css/main.css' %}">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <style>
-* {box-sizing: border-box;}
-  <link rel="stylesheet" type="text/css" href="{% static 'css/main.css' %}">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-</head>
+* {
+  margin: 0px;
+  padding: 0px;
+  box-sizing: border-box;
+}
+nav{
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+  min-height: 8vh;
+  background-color: #808080;
+}
+.nav-links{
+  display: flex;
+  justify-content: space-around;
+  width: 30%;
+}
 
+.nav-links li{
+  list-style: none;
+}
+
+.heading{
+  color: #000000;
+  text-transform: uppercase;
+  letter-spacing: 5px;
+  font-size: 20px;
+}
+
+.nav-links a{
+  color: #000000;
+  text-decoration: none;
+  letter-spacing: normal;
+  font-weight: bold;
+  font-size: 16px;
+  padding: 14px 16px;
+}
+</style>
+</head>
 <body>
-  <div class="topnav">
-    <a href="{% url 'home' %}">Home</a>
-    <a href="{% url 'catalog' %}">Catalog</a>
-    <a href="{% url 'about' %}">About</a>
-    <a href="{% url 'contact' %}">Contact</a>
+  <nav>
+  <div class="heading">
+    <h4>RealDealz</h4>
+  </div>
+  <ul class='nav-links'>
+    <li><a href="{% url 'home' %}">Home</a></li>
+    <li><a href="{% url 'catalog' %}">Catalog</a></li>
+    <li><a href="{% url 'about' %}">About</a></li>
+    <li><a href="{% url 'contact' %}">Contact</a></li>
+  </ul>
     <div class="search-container">
       <form action="/action_page.php">
         <input type="text" placeholder= "Search.." name="search">
         <button type="submit">Search</button>
       </form>
     </div>
+  </nav>
 </body>
 
 </html>

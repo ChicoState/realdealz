@@ -16,12 +16,12 @@ def about(request):
         'msg': 'About Us',
     }
     return render(request, "about.html",context=context)
-    
+
 def contact(request):
     context ={
         'msg': 'Contact',
     }
     return render(request, "contact.html",context=context)
-    
+
 class catalog(generic.ListView):
     model = Game;

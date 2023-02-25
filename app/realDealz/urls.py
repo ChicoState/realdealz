@@ -17,10 +17,11 @@ from django.conf.urls import url
 from django.contrib import admin
 from django.urls import path, include
 from realDealz import views as home
+
 urlpatterns = [
     path('home/', home.home, name='home'),
     path('catalog/', home.catalog.as_view(), name='catalog'),
     path('about/', home.about, name='about'),
     path('contact/', home.contact, name='contact'),
-    path('admin/', admin.site.urls),
+    path('admin/', admin.site.urls)
 ]
