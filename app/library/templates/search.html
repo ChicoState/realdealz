@@ -4,8 +4,11 @@
 
 <head>
   <meta charset="UTF-8">
-<link rel="stylesheet" type="text/css" href="{% static 'css/main.css' %}">
-<meta name="viewport" content="width=device-width, initial-scale=1">
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
+  <link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap-theme.min.css" rel="stylesheet"/>
+  <link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css" rel="stylesheet"/>
+  <link rel="stylesheet" type="text/css" href="{% static 'css/main.css' %}">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
 <style>
 * {
   margin: 0px;
@@ -57,12 +60,27 @@ nav{
     <li><a href="{% url 'about' %}">About</a></li>
     <li><a href="{% url 'contact' %}">Contact</a></li>
   </ul>
-    <div class="search-container">
-      <form action="/action_page.php">
-        <input type="text" placeholder= "Search.." name="search">
-        <button type="submit">Search</button>
-      </form>
-    </div>
+  <div class="container">
+    <div class="row">
+        <div class="col-xs-8 col-xs-offset-2">
+		    <div class="input-group">
+                <div class="input-group-btn search-panel">
+                  <select name="search_param" id="search_param" class="btn btn-default dropdown-toggle" data-toggle="dropdown">
+                    <option value="all">All</option>
+                    <option value="username">link 1</option>
+                    <option value="email">link 2</option>
+                    <option value="studentcode">link 3</option>
+                  </select>
+                </div>
+                <input type="hidden" name="search_param" value="all" id="search_param">
+                <input type="text" class="form-control" name="x" placeholder="Search term...">
+                <span class="input-group-btn">
+                    <button class="btn btn-default" type="button"><span class="glyphicon glyphicon-search"></span></button>
+                </span>
+            </div>
+        </div>
+	   </div>
+   </div>
   </nav>
 </body>
 
