@@ -1,0 +1,27 @@
+{
+    "name": "Django Dev Container",
+    
+    "dockerComposeFile": "../compose.yaml",
+    "service": "web",
+	"workspaceFolder": "/app",
+	
+    // These are the recommended extensions for developing this container
+    "customizations": {
+        "vscode": {
+            "extensions": [
+                "ms-python.pylint",
+                "ms-python.python",
+                "ms-python.vscode-pylance",
+                "njpwerner.autodocstring",
+                "batisteo.vscode-django",
+                "VisualStudioExptTeam.vscodeintellicode",
+                "KevinRose.vsc-python-indent"
+			]
+		}
+        
+        
+	},
+    // Optional depending on your workflow
+    "shutdownAction": "stopCompose"
+    
+}
