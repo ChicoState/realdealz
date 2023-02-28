@@ -1,5 +1,5 @@
 # realdealz
-[![Django CI](https://github.com/ChicoState/realdealz/actions/workflows/django.yml/badge.svg)](https://github.com/ChicoState/realdealz/actions/workflows/django.yml)
+[![Django CI](https://github.com/ChicoState/realdealz/actions/workflows/django.yml/badge.svg)](https://github.com/ChicoState/realdealz/actions/workflows/django.yml) [![Pylint](https://github.com/ChicoState/realdealz/actions/workflows/pylint.yml/badge.svg)](https://github.com/ChicoState/realdealz/actions/workflows/pylint.yml)
 
 
 see the [Development Guide](Docs/development.md) for more details on how to develop this project.
