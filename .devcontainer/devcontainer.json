@@ -16,11 +16,17 @@
                 "njpwerner.autodocstring",
                 "VisualStudioExptTeam.vscodeintellicode",
                 "KevinRose.vsc-python-indent"
-			]
+			],
+            "settings": {
+                "pylint.interpreter": ["/usr/local/bin/python"],
+                "pylint.path": ["/usr/local/bin/pylint"],
+            }
 		}
         
         
 	},
+
+    
     // Optional depending on your workflow
     "shutdownAction": "stopCompose"
     
