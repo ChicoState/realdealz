@@ -1,9 +1,38 @@
 # How to develop this project locally with docker compose
 
+## Prerequisites
+1. - You must first have docker / docker-compose installed on your machine
+- You can find the installation instructions for docker here: https://docs.docker.com/get-docker/ 
+2. - We recommend using vscode as your editor
+- You can find the installation instructions for vscode here: https://code.visualstudio.com/download
+- You will need to install the Remote - Containers extension for vscode
+3. - When you open the project in vscode you will may be prompted to install the Remote - Containers extension for vscode
+- You need this extension to open the project inside the container
+
+## How to open a vscode instance inside of the container 
+- This is a good way to develop the project locally
+- You can use the vscode instance inside the container to edit the code and run the server
+- that way you don't have to install dependencies on your machine 
+- and you don't have to worry about fancy docker commands to run the server or run migrations
+
+
+1.  First open the root folder of the project in **vscode** this folder should look like this:
+![asdf](screenshots/Project_root.png)
+2. Then click the button in the bottom right corner of vscode that says `Reopen in Container`
+![asdf](screenshots/Reopen_container.png)
+3. This will open a vscode instance inside the container
+
+If The above Doesn't work try the following 
+1. Open the root folder of the project in vscode
+2. Open the command palette by pressing `ctrl + shift + p`
+3. Type `reopen in container` and select the option `Remote-Containers: Reopen Folder in Container`
+- if you dont see this option you may need to install the Remote - Containers extension for vscode this should popup automatically when you open the project in vscode as a recommendation.
+
+
+
+
 ## How to start the Web-server locally 
-- You must first have docker / docker-compose installed on your machine
-- You can find the installation instructions for docker here: https://docs.docker.com/get-docker/
-1. Open a terminal 
+
     - on windows this can be powershell or wsl (personal preference)
 2. navigate to the root of the project directory 
     - should contain the `docker-compose.yml` file and the app folder
