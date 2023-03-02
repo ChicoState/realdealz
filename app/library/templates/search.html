@@ -34,10 +34,12 @@
                     <option value="studentcode">link 3</option>
                   </select>
                 </div>
+                <form method="get" action="{% url 'game_search' %}">
                 <input type="hidden" name="search_param" value="all" id="search_param">
-                <input type="text" class="form-control" name="x" placeholder="Search term...">
+                <input type="text" class="form-control" name="q" placeholder="Search Games">
                 <span class="input-group-btn">
-                    <button class="btn btn-default" type="button"><span class="glyphicon glyphicon-search"></span></button>
+                    <button class="btn btn-default" type="submit"><span class="glyphicon glyphicon-search"></span></button>
+                    </form>
                 </span>
             </div>
         </div>
