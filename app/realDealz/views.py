@@ -26,9 +26,9 @@ def contact(request):
 
 def game_search(request):
     query = request.GET.get('q')
-    games = Game.objects.filter(
-        Q(title__icontains=query) | Q(platform__icontains=query) | Q(genre__icontains=query)
-    )
+    # games = Game.objects.filter(
+    #     Q(title__icontains=query) | Q(platform__icontains=query) | Q(genre__icontains=query)
+    # )
     return render(request, 'game_search.html', {'games': games})
 
 class catalog(generic.ListView):
