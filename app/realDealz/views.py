@@ -25,11 +25,12 @@ def contact(request):
     return render(request, "contact.html",context=context)
 
 def game_search(request):
-    query = request.GET.get('q')
+    pass
+    # query = request.GET.get('q')
     # games = Game.objects.filter(
     #     Q(title__icontains=query) | Q(platform__icontains=query) | Q(genre__icontains=query)
     # )
-    return render(request, 'game_search.html', {'games': games})
+    # return render(request, 'game_search.html', {'games': games})
 
 class catalog(generic.ListView):
-    model = Game;
+    model = Game
