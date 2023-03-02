@@ -23,5 +23,6 @@ urlpatterns = [
     path('catalog/', home.catalog.as_view(), name='catalog'),
     path('about/', home.about, name='about'),
     path('contact/', home.contact, name='contact'),
-    path('admin/', admin.site.urls)
+    path('search/', home.game_search, name='game_search'),
+    path('admin/', admin.site.urls),
 ]
