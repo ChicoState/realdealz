@@ -34,8 +34,3 @@ def game_search(request):
 
 class catalog(generic.ListView):
     model = Game
-    paginate_by = 10
-
-
-class catalogdetail(generic.DetailView):
-    model = Game

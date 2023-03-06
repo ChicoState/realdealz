@@ -1,7 +1,4 @@
 from django.contrib import admin
-from realDealz.models import Game,Genre,Platform,Seller
+from realDealz.models import Game
 
 admin.site.register(Game)
-admin.site.register(Genre)
-admin.site.register(Seller)
-admin.site.register(Platform)
