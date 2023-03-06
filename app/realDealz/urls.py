@@ -25,4 +25,5 @@ urlpatterns = [
     path('contact/', home.contact, name='contact'),
     path('search/', home.game_search, name='game_search'),
     path('admin/', admin.site.urls),
+    path('catalog/<int:pk>', home.catalogdetail.as_view(), name='game-detail'),
 ]
