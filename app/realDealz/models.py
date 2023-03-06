@@ -52,7 +52,7 @@ class Game(models.Model):
     '''Generic Game model'''
     title = models.CharField(max_length=100, default="Empty Game", help_text='Give title')
     price = models.CharField(max_length=20, default="-1")
-    game_id = models.AutoField(primary_key=True, default=None)
+    game_id = models.AutoField(primary_key=True)
 
 
     #Field can include multiple MultiFields. This allows multiple platforms and genres per game entry

@@ -31,11 +31,12 @@ def game_search(request):
     #     Q(title__icontains=query) | Q(platform__icontains=query) | Q(genre__icontains=query)
     # )
     # return render(request, 'game_search.html', {'games': games})
+    
+    
+def game_detail(request, game_id):
+    game = Game.objects.get(game_id=game_id)
+    return render(request, 'game_detail.html', {'Game': game})
 
 class catalog(generic.ListView):
     model = Game
     paginate_by = 10
-
-
-class catalogdetail(generic.DetailView):
-    model = Game

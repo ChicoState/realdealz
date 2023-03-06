@@ -5,5 +5,11 @@
   <p><strong>Lowest Price:</strong> {{ Game.price }}</p>
   <p><strong>Platforms:</strong> {{ Game.platform.all|join:", " }}</p>
   <p><strong>Genre:</strong> {{ Game.genre.all|join:", " }}</p>
-  <p><strong>Vendors:</strong> {{ Game.vendors.all|join:", " }}</p>
+  <ul>
+    <p><strong>Vendors:</strong>
+    {% for link in Game.vendors.all %}
+      <li><a href="{{ link }}">{{ link }}</a></li>
+    {% endfor %}
+  </ul>
+  
 {% endblock %}
