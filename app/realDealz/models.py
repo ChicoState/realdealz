@@ -14,7 +14,7 @@ class Platform(models.Model):
 
     def __str__(self):
         '''String for representing the Model object.'''
-        return self.P
+        return str(self.P)
     
 #Default value for platforms
 def DefaultPlatforms():
@@ -26,7 +26,7 @@ class Genre(models.Model):
 
     def __str__(self):
         '''String for representing the Model object.'''
-        return self.G
+        return str(self.G)
     
 def DefaultGenres():
     return ['Action']
@@ -37,7 +37,7 @@ class Seller(models.Model):
 
     def __str__(self):
         '''String for representing the Model object.'''
-        return self.sources
+        return str(self.sources)
     
 def DefaultSellers():
     return ['https://www.google.com/']
@@ -48,12 +48,11 @@ def DefaultSellers():
 #Price: This should list the lowest price of the game
 #Platform: This should include all platforms (Ex. Windows, Linux, Playstation, etc..)
 #Genre: This should include all genres to the game (Ex. Action, Strategy, Survival, etc.. )
-#IMPORTANT: Django automatically creates a private key that distinguishes all entries in the DB.
-#While not shown, keep in mind it exists for every entry in the database
 class Game(models.Model):
     '''Generic Game model'''
     title = models.CharField(max_length=100, default="Empty Game", help_text='Give title')
     price = models.CharField(max_length=20, default="-1")
+    game_id = models.AutoField(primary_key=True, default=None)
 
 
     #Field can include multiple MultiFields. This allows multiple platforms and genres per game entry
@@ -67,4 +66,4 @@ class Game(models.Model):
     #When clicking a link, return the respective id of the game
     def get_absolute_url(self):
      '''Returns the URL to access a detail record for this Game.'''
-     return reverse('game-detail', args=[str(self.id)])
+     return reverse('game-detail', args=[str(self.game_id)])
