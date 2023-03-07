@@ -46,7 +46,7 @@ def game_search(request):
     
     
 def game_detail(request, game_id):
-    game = Game.objects.get(game_id=game_id)
+    game = Game.objects.get(appid=game_id)
     return render(request, 'game_detail.html', {'Game': game})
 
 
@@ -54,5 +54,5 @@ def game_detail(request, game_id):
 class catalog(generic.ListView):
     '''Catalog view for all games in the database used for catalog page'''
     model = Game
-    paginate_by = 10
+    paginate_by = 1000
     

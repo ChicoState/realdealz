@@ -6,7 +6,7 @@
   <ul>
     {% for Game in game_list %}
       <li>
-        <a href="{{ Game.get_absolute_url }}">{{ Game.title }}</a> ({{Game.price}}) ({{ Game.platform.all|join:", " }}) ({{ Game.genre.all|join:", " }})
+        <a href="{{ Game.get_absolute_url }}">{{ Game.name }}</a> ({{Game.price}}) ({{Game.developer}}) ({{ Game.platform.all|join:", " }}) ({{ Game.genre.all|join:", " }})
       </li>
     {% endfor %}
   </ul>
