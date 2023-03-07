@@ -28,12 +28,12 @@ def contact(request):
     return render(request, "contact.html",context=context)
 
 def game_search(request):
-    pass
-    # query = request.GET.get('q')
-    # games = Game.objects.filter(
-    #     Q(title__icontains=query) | Q(platform__icontains=query) | Q(genre__icontains=query)
-    # )
-    # return render(request, 'game_search.html', {'games': games})
+    #pass
+    query = request.GET.get('q')
+    games = Game.objects.filter(
+       Q(title__icontains=query) | Q(platform__P__icontains=query) | Q(genre__G__icontains=query)
+    )
+    return render(request, 'game_search.html', {'games': games})
     
     
 def game_detail(request, game_id):
