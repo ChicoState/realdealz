@@ -1,10 +1,11 @@
+#pylint: disable=no-member
 from django.http import HttpResponse
 from django.views import generic
 from django.shortcuts import render, redirect
 from .models import Game
 from django.db.models import Q
 from django.db import connection
-pylint: disable=no-member
+
 
 
 def home(request):
