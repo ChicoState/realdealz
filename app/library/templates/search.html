@@ -1,16 +1,14 @@
 {% load static %}
 <!DOCTYPE html>
-<html lang="en">
-  <title>RealDealz</title>
+<html>
   <head>
     <meta charset="UTF-8" />
-    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js" />
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
     <link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap-theme.min.css" rel="stylesheet" />
     <link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css" rel="stylesheet" />
     <link rel="stylesheet" type="text/css" href="{% static 'css/main.css' %}" />
     <link rel="stylesheet" type="text/css" href="{% static 'css/realdealz.css' %}" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-
     <script>
       function openNav() {
         document.getElementById("mySidenav").style.display = "block";
@@ -31,7 +29,6 @@
         <li><a href="{% url 'home' %}">Home</a></li>
         <li><a href="{% url 'catalog' %}">Catalog</a></li>
         <li><a href="{% url 'about' %}">About</a></li>
-        <li><a href="{% url 'contact' %}">Contact</a></li>
       </ul>
       <div class="container">
         <div class="row">
@@ -45,14 +42,14 @@
                   data-toggle="dropdown"
                 >
                   <option value="all">All</option>
-                  <option value="username">General</option>
-                  <option value="email">Steam</option>
-                  <option value="studentcode">Local</option>
+                  <option value="username">link 1</option>
+                  <option value="email">link 2</option>
+                  <option value="studentcode">link 3</option>
                 </select>
               </div>
               <form method="get" action="{% url 'game_search' %}">
                 <input type="hidden" name="search_param" value="all" id="search_param" />
-                <input type="text" class="form-control" name="q" placeholder="Search Games" />
+                <input id="searchBox" type="text" class="form-control" name="q" placeholder="Search Games" />
                 <span class="input-group-btn">
                   <button class="btn btn-default" type="submit">
                     <span class="glyphicon glyphicon-search"></span>
@@ -64,6 +61,7 @@
         </div>
       </div>
     </nav>
+    {% comment %}
     <div id="mySidenav" class="sidenav">
       <a href="javascript:void(0)" class="closebtn" onclick="closeNav()">&times;</a>
       <a href="#">Link 1</a>
@@ -72,8 +70,8 @@
       <a href="#">Link 4</a>
     </div>
     <span style="font-size: 20px; cursor: pointer" onclick="openNav()">&#9776; All</span>
+    {% endcomment %}
   </body>
-
-  {% block content %} 
-  {% endblock content %}
 </html>
+
+{% block content %} {% endblock content %}

@@ -5,13 +5,15 @@ from django.shortcuts import render, redirect
 from .models import Game
 from django.db.models import Q
 from django.db import connection
-
+from .load_library import Library
 
 
 def home(request):
+    l = Library()
     context ={
         'title': 'Homepage',
         'msg': 'Home',
+        'games': l.search_all(),
     }
     return render(request, "home.html",context=context)
 
@@ -43,5 +45,7 @@ def game_detail(request, game_id):
 
 
 class catalog(generic.ListView):
+    '''Catalog view for all games in the database used for catalog page'''
     model = Game
     paginate_by = 10
+    
