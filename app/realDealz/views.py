@@ -5,7 +5,7 @@ from django.shortcuts import render, redirect
 from .models import Game
 from django.db.models import Q
 from django.db import connection
-from .load_library import Library
+from .library import Library
 
 
 def home(request):
@@ -13,8 +13,15 @@ def home(request):
     context ={
         'title': 'Homepage',
         'msg': 'Home',
-        'games': l.search_all(),
     }
+    if request.method == 'POST':
+        if 'load' in request.POST:
+            Game.initial_load()
+            # return redirect('Catalog')
+        if 'reset' in request.POST:
+            Game.clear_all()
+            # return redirect('Catalog')
+
     return render(request, "home.html",context=context)
 
 def about(request):
