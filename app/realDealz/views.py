@@ -3,6 +3,7 @@ from django.views import generic
 from django.shortcuts import render, redirect
 from .models import Game
 from django.db.models import Q
+from django.db import connection
 
 
 def home(request):
@@ -36,6 +37,8 @@ def game_search(request):
 def game_detail(request, game_id):
     game = Game.objects.get(game_id=game_id)
     return render(request, 'game_detail.html', {'Game': game})
+
+
 
 class catalog(generic.ListView):
     model = Game
