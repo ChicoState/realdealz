@@ -12,8 +12,12 @@ def val_auth(func):
     '''For Validating Auth'''
     @wraps(func)
     def inner(self, *args, **kwargs):
-        if dt.now().timestamp() - self.auth["request_time"] > self.auth["expires_in"]:
-            self.auth = self.get_auth_token()
+        # check if url is in the arguments 
+        if "url" in kwargs:
+            url = kwargs["url"]
+            if "igdb" in url:
+                if dt.now().timestamp() - self.auth["request_time"] > self.auth["expires_in"]:
+                    self.auth = self.get_auth_token()
         return func(self, *args, **kwargs)
     return inner
 
@@ -25,30 +29,37 @@ class Library:
     secret - Client Secret
     auth['Authorization'] - Auth token
     '''
-
-    def __init__(self, load = True, i_auth = False):
+    def __init__(self, load_credentials = False, on_init_authorize = False):
         log.info("initializing Library")
         self.base = {
             "steamspy": "steamspy.com/api.php?request=",
             "igdb": "https://api.igdb.com/v4/",
             "steam": "https://store.steampowered.com/api/",
         }
-        if not load:
-            log.info("Skipping igbd auth")
-            return
-        # if .env file exists 
-        if os.path.exists('.env'):
-            env = Env()
-            env.read_env()
-            self.secret = env.str("Client_secret")
-            self._id = env.str("Client_id")
-            if not self.secret or not self._id:
-                log.error("Client_secret or Client_id is not defined")
-        
+        self._id = None
+        self._secret = None
+        self.auth = None
+        if load_credentials:
+            self._load_cred()
+
         self.a_header = {"Client-ID": self._id}
-        if i_auth:
+
+        if on_init_authorize:
             self.auth = self.get_auth_token()
             self.a_header['Authorization'] = self.auth.pop('Authorization', None)
+    
+    def _load_cred(self):
+        '''Loads the credentials from .env file if it exists'''
+        if not os.path.exists('.env'):# if .env file exists  use it to load the credentials
+            log.error("No .env file found")
+            return
+        env = Env()
+        env.read_env()
+        self._secret = env.str("Client_secret")
+        self._id = env.str("Client_id")
+        if not self._secret or not self._id:
+            log.error("Client_secret or Client_id is not defined")
+
 
     def get_auth_token(self):
         '''HTTP POST request to get twitch API auth token'''
@@ -58,7 +69,7 @@ class Library:
         result = json.loads(http.request(
             'POST',
             auth_url,
-            fields={"client_id": self._id, "client_secret": self.secret,
+            fields={"client_id": self._id, "client_secret": self._secret,
                      "grant_type": "client_credentials"}
         ).data)
         # clean the data
@@ -68,8 +79,6 @@ class Library:
         if result['Authorization'] == " ":
             log.error('Could not get auth token')
         return result
-
-
 
     def search_all(self, content="mario asdf"):
         '''igdb API calls Game Slice'''
