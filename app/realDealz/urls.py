@@ -19,9 +19,11 @@ from django.urls import path, include
 from realDealz import views as home
 
 urlpatterns = [
-    path('home/', home.home, name='home'),
+    path('', home.home, name='home'),
     path('catalog/', home.catalog.as_view(), name='catalog'),
     path('about/', home.about, name='about'),
     path('contact/', home.contact, name='contact'),
-    path('admin/', admin.site.urls)
+    path('search/', home.game_search, name='game_search'),
+    path('admin/', admin.site.urls),
+    path('catalog/<int:game_id>', home.game_detail, name='game-detail'),
 ]

@@ -1,9 +1,32 @@
-{%extends 'search.html'%}
+{% extends "search.html" %}
 {% load static %}
 
 {% block content %}
-<h1>{{ msg }}</h1>
-<p class>This is the About Us Page</p>
-
-
-{% endblock %}
+<div class="about"> 
+    <body class="red">
+        <h1>About RealDealz</h1>
+        <p>Welcome to RealDealz, your one-stop shop for finding the best gaming deals on the internet! Our team is dedicated to finding the best deals on games, consoles, and accessories from across the web so that you can save money and get the most out of your gaming experience.</p>
+        
+        <h2>Our Team</h2>
+        <p>Our team is made up of passionate gamers and bargain hunters who scour the web to find the best deals for our users. Meet our team:</p>
+        <ul>
+            <li><strong>Noah Iles</strong> - FullStack Developer</li>
+        </ul>
+        
+        <h2>Our Mission</h2>
+        <p>Our mission is to help gamers save money and find the best deals on games and gaming equipment. We believe that everyone should be able to enjoy the latest and greatest games without breaking the bank. Our website provides a curated list of the best gaming deals from across the web, so you can spend less time searching and more time gaming.</p>
+        
+        <h2>Our Technology</h2>
+        <p>Our website is built using the Django web framework, which provides a powerful and flexible platform for building web applications. We use a number of other technologies and tools to power our website, including:</p>
+        <ul>
+            <li>Bootstrap - a popular front-end framework for building responsive websites</li>
+            <li>jQuery - a JavaScript library for creating interactive web elements</li>
+            <li>Git - a version control system for managing code changes</li>
+        </ul>
+        
+        <h2>Get Involved</h2>
+        <p>If you're interested in helping us build RealDealz, we'd love to hear from you! We're always looking for talented developers, designers, and content creators to join our team. Contact us at <a href="mailto:contact@realdealz.com">contact@gamingdealz.com</a> to learn more about how you can get involved.</p>
+    </body>
+</div>
+    
+{% endblock content %}

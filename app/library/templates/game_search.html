@@ -1,0 +1,16 @@
+{% extends 'search.html' %}
+
+{% block content %}
+    <h1>Search Results</h1>
+
+{% if games %}
+    <ul>
+        {% for game in games %}
+            <li>{{ game.title }} ({{ game.platform }})</li>
+        {% endfor %}
+    </ul>
+{% else %}
+    <p>No games found.</p>
+{% endif %}
+
+{% endblock %}
