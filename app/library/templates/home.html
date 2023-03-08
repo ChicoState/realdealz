@@ -1,12 +1,24 @@
-{%extends 'search.html'%}
+{% extends "search.html" %}
 {% load static %}
-{% block title%}
+{% block title %}
 {{ title }}
-{% endblock %}
+{% endblock title %}
 
 {% block content %}
-   <h1> {{ msg }}</h1>
-    <h2 class= "font">this is the home page for now</h2>
-  
+    <div>
+        <h1> {{ msg }}</h1>
+        {% comment %} <form method="get" action="">
+            {% csrf_token %}
+            <input type="text" name="q" placeholder="Search..." />
+            <button type="submit">Go</button>
+        </form> {% endcomment %}
+    </div>
 
-{% endblock %}
+    <div>
+        <form method="POST" >
+            {% csrf_token %}
+            <button type="submit" name="load" class="btn btn-primary">Initial_load</button>
+            <button type="submit" name="reset" class="btn btn-scondary">Reset</button>
+        </form>
+    </div>
+{% endblock content %}

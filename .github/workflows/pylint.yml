@@ -21,4 +21,6 @@ jobs:
         pip install pylint
     - name: Analysing the code with pylint
       run: |
-        pylint --errors-only $(git ls-files '*.py')
+        pylint --errors-only --load-plugins pylint_django \
+        --django-settings-module=realDealz.settings \
+        $(git ls-files '*.py')

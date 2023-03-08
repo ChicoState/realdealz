@@ -9,17 +9,19 @@
     "customizations": {
         "vscode": {
             "extensions": [
-                "ms-python.python",
-                "ms-python.pylint",
-                "ms-python.vscode-pylance",
-                "batisteo.vscode-django",
-                "njpwerner.autodocstring",
-                "VisualStudioExptTeam.vscodeintellicode",
-                "KevinRose.vsc-python-indent"
+				"ms-python.python",
+				"ms-python.pylint",
+				"ms-python.vscode-pylance",
+				"batisteo.vscode-django",
+				"njpwerner.autodocstring",
+				"VisualStudioExptTeam.vscodeintellicode",
+				"KevinRose.vsc-python-indent",
+				"GitHub.copilot",
+				"monosans.djlint"
 			],
             "settings": {
                 "pylint.interpreter": ["/usr/local/bin/python"],
-                "pylint.path": ["/usr/local/bin/pylint"],
+                "pylint.path": ["/usr/local/bin/pylint"]
             }
 		}
         

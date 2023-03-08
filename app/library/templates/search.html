@@ -1,72 +1,77 @@
 {% load static %}
 <!DOCTYPE html>
 <html>
+  <head>
+    <meta charset="UTF-8" />
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
+    <link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap-theme.min.css" rel="stylesheet" />
+    <link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css" rel="stylesheet" />
+    <link rel="stylesheet" type="text/css" href="{% static 'css/main.css' %}" />
+    <link rel="stylesheet" type="text/css" href="{% static 'css/realdealz.css' %}" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <script>
+      function openNav() {
+        document.getElementById("mySidenav").style.display = "block";
+      }
 
-<head>
-  <meta charset="UTF-8">
-  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
-  <link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap-theme.min.css" rel="stylesheet"/>
-  <link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css" rel="stylesheet"/>
-  <link rel="stylesheet" type="text/css" href="{% static 'css/main.css' %}">
-  <link rel="stylesheet" type="text/css" href="{% static 'css/realdealz.css' %}">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-</head>
-<body>
-  <nav>
-  <div class="heading">
-    <h4>RealDealz</h4>
-  </div>
-  <ul class='nav-links'>
-    <li><a href="{% url 'home' %}">Home</a></li>
-    <li><a href="{% url 'catalog' %}">Catalog</a></li>
-    <li><a href="{% url 'about' %}">About</a></li>
-    <li><a href="{% url 'contact' %}">Contact</a></li>
-  </ul>
-  <div class="container">
-    <div class="row">
-        <div class="col-xs-8 col-xs-offset-2">
-		    <div class="input-group">
-                <div class="input-group-btn search-panel">
-                  <select name="search_param" id="search_param" class="btn btn-default dropdown-toggle" data-toggle="dropdown">
-                    <option value="all">All</option>
-                    <option value="username">link 1</option>
-                    <option value="email">link 2</option>
-                    <option value="studentcode">link 3</option>
-                  </select>
-                </div>
-                <form method="get" action="{% url 'game_search' %}">
-                <input type="hidden" name="search_param" value="all" id="search_param">
-                <input type="text" class="form-control" name="q" placeholder="Search Games">
+      function closeNav() {
+        document.getElementById("mySidenav").style.display = "none";
+      }
+    </script>
+  </head>
+
+  <body>
+    <nav>
+      <div class="heading">
+        <h4>RealDealz</h4>
+      </div>
+      <ul class="nav-links">
+        <li><a href="{% url 'home' %}">Home</a></li>
+        <li><a href="{% url 'catalog' %}">Catalog</a></li>
+        <li><a href="{% url 'about' %}">About</a></li>
+      </ul>
+      <div class="container">
+        <div class="row">
+          <div class="col-xs-8 col-xs-offset-2">
+            <div class="input-group">
+              <div class="input-group-btn search-panel">
+                <select
+                  name="search_param"
+                  id="search_param"
+                  class="btn btn-default dropdown-toggle"
+                  data-toggle="dropdown"
+                >
+                  <option value="all">All</option>
+                  <option value="username">link 1</option>
+                  <option value="email">link 2</option>
+                  <option value="studentcode">link 3</option>
+                </select>
+              </div>
+              <form method="get" action="{% url 'game_search' %}">
+                <input type="hidden" name="search_param" value="all" id="search_param" />
+                <input id="searchBox" type="text" class="form-control" name="q" placeholder="Search Games" />
                 <span class="input-group-btn">
-                    <button class="btn btn-default" type="submit"><span class="glyphicon glyphicon-search"></span></button>
-                    </form>
+                  <button class="btn btn-default" type="submit">
+                    <span class="glyphicon glyphicon-search"></span>
+                  </button>
                 </span>
+              </form>
             </div>
+          </div>
         </div>
-	   </div>
-   </div>
-  </nav>
-  <div id="mySidenav" class="sidenav">
-   <a href="javascript:void(0)" class="closebtn" onclick="closeNav()">&times;</a>
-   <a href="#">Link 1</a>
-   <a href="#">Link 2</a>
-   <a href="#">Link 3</a>
-   <a href="#">Link 4</a>
-  </div>
-  <span style="font-size:20px;cursor:pointer" onclick="openNav()">&#9776; All</span>
-  <script>
-  function openNav() {
-    document.getElementById("mySidenav").style.display = "block";
-  }
-
-  function closeNav() {
-    document.getElementById("mySidenav").style.display = "none";
-  }
-  </script>
-</body>
-
+      </div>
+    </nav>
+    {% comment %}
+    <div id="mySidenav" class="sidenav">
+      <a href="javascript:void(0)" class="closebtn" onclick="closeNav()">&times;</a>
+      <a href="#">Link 1</a>
+      <a href="#">Link 2</a>
+      <a href="#">Link 3</a>
+      <a href="#">Link 4</a>
+    </div>
+    <span style="font-size: 20px; cursor: pointer" onclick="openNav()">&#9776; All</span>
+    {% endcomment %}
+  </body>
 </html>
 
-{% block content %}
-
-{%endblock%}
+{% block content %} {% endblock content %}
