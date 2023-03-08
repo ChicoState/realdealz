@@ -37,7 +37,6 @@ def contact(request):
     return render(request, "contact.html",context=context)
 
 def game_search(request):
-    pass
      query = request.GET.get('q')
      games = Game.objects.filter(
          Q(name__icontains=query) | Q(platform__P__icontains=query) | Q(genre__G__icontains=query)

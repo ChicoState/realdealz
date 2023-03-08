@@ -4,6 +4,7 @@ from datetime import datetime as dt
 import json
 import urllib3
 from environs import Env
+import os
 
 log.basicConfig(level=log.INFO)
 
@@ -35,12 +36,15 @@ class Library:
         if not load:
             log.info("Skipping igbd auth")
             return
-        env = Env()
-        env.read_env()
-        self.secret = env.str("Client_secret")
-        self._id = env.str("Client_id")
-        if not self.secret or not self._id:
-            log.error("Client_secret or Client_id is not defined")
+        # if .env file exists 
+        if os.path.exists('.env'):
+            env = Env()
+            env.read_env()
+            self.secret = env.str("Client_secret")
+            self._id = env.str("Client_id")
+            if not self.secret or not self._id:
+                log.error("Client_secret or Client_id is not defined")
+        
         self.a_header = {"Client-ID": self._id}
         if i_auth:
             self.auth = self.get_auth_token()
