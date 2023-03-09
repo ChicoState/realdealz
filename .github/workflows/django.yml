@@ -24,7 +24,9 @@ jobs:
       run: |
         cd app/
         python -m pip install --upgrade pip
-        pip install -r requirements.txt --no-cache-dir
+        pip install -r requirements.txt
+        pip install pylint
+        pip install pylint_django==2.5.3
     - name: Run Tests
       run: |
         cd app/
