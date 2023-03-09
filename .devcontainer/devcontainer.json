@@ -27,6 +27,9 @@
         
         
 	},
+    // "initializeCommand": "",
+
+    "onCreateCommand": "pip install -r dev_tools.txt --no-cache-dir",
 
     
     // Optional depending on your workflow
