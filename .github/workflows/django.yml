@@ -25,8 +25,6 @@ jobs:
         cd app/
         python -m pip install --upgrade pip
         pip install -r requirements.txt
-        pip install pylint
-        pip install pylint_django
     - name: Run Tests
       run: |
         cd app/
