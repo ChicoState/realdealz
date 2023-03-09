@@ -1,4 +1,4 @@
-#pylint: disable=no-member
+# pylint: disable=no-member
 from django.http import HttpResponse
 from django.views import generic
 from django.shortcuts import render, redirect
@@ -10,7 +10,7 @@ from .library import Library
 
 def home(request):
     l = Library()
-    context ={
+    context = {
         'title': 'Homepage',
         'msg': 'Home',
     }
@@ -22,36 +22,38 @@ def home(request):
             Game.clear_all()
             # return redirect('Catalog')
 
-    return render(request, "home.html",context=context)
+    return render(request, "home.html", context=context)
+
 
 def about(request):
-    context ={
+    context = {
         'msg': 'About Us',
     }
-    return render(request, "about.html",context=context)
+    return render(request, "about.html", context=context)
+
 
 def contact(request):
-    context ={
+    context = {
         'msg': 'Contact',
     }
-    return render(request, "contact.html",context=context)
+    return render(request, "contact.html", context=context)
+
 
 def game_search(request):
-     query = request.GET.get('q')
-     games = Game.objects.filter(
-         Q(name__icontains=query) | Q(platform__P__icontains=query) | Q(genre__G__icontains=query)
-     )
-     return render(request, 'game_search.html', {'games': games})
-    
-    
+    query = request.GET.get('q')
+    games = Game.objects.filter(
+        Q(name__icontains=query) or Q(
+            platform__P__icontains=query) or Q(genre__G__icontains=query)
+    )
+    return render(request, 'game_search.html', {'games': games})
+
+
 def game_detail(request, game_id):
     game = Game.objects.get(appid=game_id)
     return render(request, 'game_detail.html', {'Game': game})
-
 
 
 class catalog(generic.ListView):
     '''Catalog view for all games in the database used for catalog page'''
     model = Game
     paginate_by = 1000
-    
