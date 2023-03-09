@@ -28,32 +28,13 @@ jobs:
         cd app/
         python -m pip install --upgrade pip
         pip install -r requirements.txt
+        pip install pylint pylint-django
     - name: Run Tests
       run: |
         cd app/
         python manage.py test
-
-  Linting: 
-    runs-on: ubuntu-latest
-    if: github.event_name != 'pull_request' || github.event.pull_request.head.repo.full_name != github.event.pull_request.base.repo.full_name
-    strategy:
-      max-parallel: 4
-      matrix:
-        python-version: ['3.10', '3.11']
-    steps: 
-      - uses: actions/checkout@v3
-      - name: Set up Python ${{ matrix.python-version }}
-        uses: actions/setup-python@v3
-        with:
-          python-version: ${{ matrix.python-version }}
-      - name: Install Dependencies
-        run: |
-          cd app/
-          python -m pip install --upgrade pip
-          pip install -r requirements.txt
-          pip install pylint pylint-django
-      - name: Analysing the code with pylint
-        run: |
-          pylint --errors-only --load-plugins pylint_django \
-          --django-settings-module=realDealz.settings \
-          $(git ls-files '*.py')
+    - name: Analysing the code with pylint
+      run: |
+        pylint --errors-only --load-plugins pylint_django \
+        --django-settings-module=realDealz.settings \
+        $(git ls-files '*.py')
