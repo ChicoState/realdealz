@@ -25,13 +25,12 @@ jobs:
         cd app/
         python -m pip install --upgrade pip
         pip install -r requirements.txt
-    - name: Run Tests
-      run: |
-        cd app/
-        python manage.py test
     - name: Analysing the code with pylint
       run: |
         pylint --errors-only --load-plugins pylint_django \
         --django-settings-module=realDealz.settings \
         $(git ls-files '*.py')
-
+    - name: Run Tests
+      run: |
+        cd app/
+        python manage.py test
