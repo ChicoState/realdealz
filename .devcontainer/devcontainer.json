@@ -21,7 +21,10 @@
 			],
             "settings": {
                 "pylint.interpreter": ["/usr/local/bin/python"],
-                "pylint.path": ["/usr/local/bin/pylint"]
+                "pylint.path": ["/usr/local/bin/pylint"],
+                "python.linting.pylintArgs": [
+                    "--load-plugins=pylint_django"
+                ]
             }
 		}
         
