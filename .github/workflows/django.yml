@@ -1,19 +1,18 @@
 name: Django CI
 
-on:
-  push:
-    branches: [ "main" ]
-  pull_request:
-    branches: [ "main" ]
+on: [push, pull_request]
+  # push:
+  #   branches: [ "main" ]
+  # pull_request:
+  #   branches: [ "main" ]
 
 jobs:
-  build:
-
+  Test_Build:
     runs-on: ubuntu-latest
     strategy:
       max-parallel: 4
       matrix:
-        python-version: [3.9, 3.10]
+        python-version: [3.9, 3.10, 3.11]
 
     steps:
     - uses: actions/checkout@v3
@@ -25,8 +24,16 @@ jobs:
       run: |
         cd app/
         python -m pip install --upgrade pip
-        pip install -r requirements.txt
+        pip install -r requirements.txt --no-cache-dir
+        pip install pylint_django==2.5.3 --no-cache-dir
+        pip install pylint --no-cache-dir
     - name: Run Tests
       run: |
         cd app/
         python manage.py test
+    - name: Analysing the code with pylint
+      run: |
+        pylint --errors-only --load-plugins pylint_django \
+        --django-settings-module=realDealz.settings \
+        $(git ls-files '*.py')
+
