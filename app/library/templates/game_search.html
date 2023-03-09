@@ -1,4 +1,4 @@
-{% extends 'search.html' %}
+{% extends "search.html" %}
 
 {% block content %}
     <h1>Search Results</h1>
@@ -6,7 +6,7 @@
 {% if games %}
     <ul>
         {% for game in games %}
-            <li>{{ game.title }} ({{ game.platform }})</li>
+            <li>{{ game.name }} ({{ game.developer }}) </li>
         {% endfor %}
     </ul>
 {% else %}
