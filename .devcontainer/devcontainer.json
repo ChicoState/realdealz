@@ -21,12 +21,18 @@
 			],
             "settings": {
                 "pylint.interpreter": ["/usr/local/bin/python"],
-                "pylint.path": ["/usr/local/bin/pylint"]
+                "pylint.path": ["/usr/local/bin/pylint"],
+                "python.linting.pylintArgs": [
+                    "--load-plugins=pylint_django"
+                ]
             }
 		}
         
         
 	},
+    // "initializeCommand": "",
+
+    "onCreateCommand": "pip install -r dev_tools.txt --no-cache-dir",
 
     
     // Optional depending on your workflow

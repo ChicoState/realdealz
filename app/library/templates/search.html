@@ -48,6 +48,7 @@
                 </select>
               </div>
               <form method="get" action="{% url 'game_search' %}">
+                {% csrf_token %}
                 <input type="hidden" name="search_param" value="all" id="search_param" />
                 <input id="searchBox" type="text" class="form-control" name="q" placeholder="Search Games" />
                 <span class="input-group-btn">
