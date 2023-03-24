@@ -5,8 +5,8 @@
 
 {% if games %}
     <ul>
-        {% for game in games %}
-            <li>{{ game.name }} ({{ game.developer }}) </li>
+        {% for Game in games %}
+            <a href="{{ Game.get_absolute_url }}">{{ Game.name }}</a> ({{Game.price}}) ({{Game.developer}}) ({{ Game.platform.all|join:", " }}) ({{ Game.genre.all|join:", " }})
         {% endfor %}
     </ul>
 {% else %}

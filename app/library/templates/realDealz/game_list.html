@@ -1,7 +1,22 @@
 {% extends "search.html" %}
-
 {% block content %}
+
+<style>
+  li {
+    font-size: 18px;
+  }
+</style>
+
   <h1>Deals List</h1>
+  <div>
+    <a href="/" class="btn btn-primary">Under $100</a>
+    <a href="/" class="btn btn-primary">Over $100</a>
+    <a href="/" class="btn btn-primary">Free</a>
+    <a href="/" class="btn btn-primary">Clear Filter</a>
+    <br>
+    <br>
+    <br>        
+  </div>
   {% if game_list %}
   <ul>
     {% for Game in game_list %}
@@ -14,3 +29,5 @@
     <p>There are no deals available.</p>
   {% endif %}
 {% endblock %}
+
+

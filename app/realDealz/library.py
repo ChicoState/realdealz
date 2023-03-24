@@ -107,11 +107,18 @@ class Library:
         _headers.update(self.a_header)
         if p_headers is not None:
             _headers.update(p_headers)
-        result = json.loads(http.request(
-            'GET',
-            url,
-            headers=_headers
-        ).data)
+
+        response = http.request('GET', url, headers=_headers)
+        data = response.data
+        if isinstance(data, bytes):
+            data = data.decode('utf-8')
+        result = json.loads(data)
+
+        #result = json.loads(http.request(
+         #   'GET',
+         #   url,
+         #   headers=_headers
+        #).data)
         return result
 
 
