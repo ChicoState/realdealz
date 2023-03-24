@@ -5,6 +5,10 @@ EXPOSE 8000
 WORKDIR /app 
 # Install build dependencies
 RUN apk add build-base 
+RUN apk add --no-cache \
+    libjpeg-turbo-dev \
+    zlib-dev \
+    && pip install --no-cache-dir Pillow
 RUN pip install --upgrade pip
 # Python Dependencies
 COPY requirements.txt /app
