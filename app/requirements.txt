@@ -1,7 +1,4 @@
-Django==3.2.13
+Django==4.1.7
 environs==7.3.1
 urllib3==1.26.14
 setuptools==67.4.0
-pylint==2.16.2
-djlint==1.19.16
-pylint_django==2.5.3
