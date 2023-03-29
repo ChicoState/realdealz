@@ -104,7 +104,6 @@ class Library:
         _headers = {
             "Content-Type": "application/json"
         }
-        _headers.update(self.a_header)
         if p_headers is not None:
             _headers.update(p_headers)
         result = json.loads(http.request(
