@@ -1,4 +1,3 @@
-# pylint: disable=no-member
 from django.http import HttpResponse
 from django.views import generic
 from django.shortcuts import render, redirect
