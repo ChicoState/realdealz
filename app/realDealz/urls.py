@@ -16,6 +16,9 @@ Including another URLconf
 from django.contrib import admin
 from django.urls import path, include
 from realDealz import views as home
+from django.conf.urls.static import static
+from django.conf import settings
+
 
 urlpatterns = [
     path('', home.home, name='home'),
@@ -24,5 +27,7 @@ urlpatterns = [
     path('contact/', home.contact, name='contact'),
     path('search/', home.game_search, name='game_search'),
     path('admin/', admin.site.urls),
-    path('catalog/<int:game_id>', home.game_detail, name='game-detail'),
+    path('catalog/<int:game_id>', home.game_detail, name='game-detail'), 
 ]
+
+urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
