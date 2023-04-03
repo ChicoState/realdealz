@@ -6,6 +6,7 @@
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
     <link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap-theme.min.css" rel="stylesheet" />
     <link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css" rel="stylesheet" />
+    <link href="https://stackpath.bootstrapcdn.com/bootswatch/4.4.1/cyborg/bootstrap.min.css" rel="stylesheet" integrity="sha384-l7xaoY0cJM4h9xh1RfazbgJVUZvdtyLWPueWNtLAphf/UbBgOVzqbOTogxPwYLHM" crossorigin="anonymous">
     <link rel="stylesheet" type="text/css" href="{% static 'css/main.css' %}" />
     <link rel="stylesheet" type="text/css" href="{% static 'css/realdealz.css' %}" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
@@ -49,13 +50,14 @@
               </div>
               <form method="get" action="{% url 'game_search' %}">
                 {% csrf_token %}
-                <input type="hidden" name="search_param" value="all" id="search_param" />
-                <input id="searchBox" type="text" class="form-control" name="q" placeholder="Search Games" />
-                <span class="input-group-btn">
-                  <button class="btn btn-default" type="submit">
-                    <span class="glyphicon glyphicon-search"></span>
-                  </button>
-                </span>
+                <div class="input-group">
+                  <input id="searchBox" type="text" class="form-control" style="width: 250px; height: 25px" name="q" placeholder="Search Games" />
+                  <div class="input-group-btn">
+                    <button class="btn btn-default" type="submit">
+                      <span class="glyphicon glyphicon-search"></span>
+                    </button>
+                  </div>
+                </div>
               </form>
             </div>
           </div>
