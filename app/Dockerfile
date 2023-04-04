@@ -8,7 +8,7 @@ RUN apk add build-base
 
 RUN apk add --no-cache \
     libjpeg-turbo-dev \
-    zlib-dev 
+    zlib-dev libffi-dev
 
 RUN pip install --upgrade pip
 # Python Dependencies

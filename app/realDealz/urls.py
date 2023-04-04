@@ -28,6 +28,7 @@ urlpatterns = [
     path('search/', home.game_search, name='game_search'),
     path('admin/', admin.site.urls),
     path('catalog/<int:game_id>', home.game_detail, name='game-detail'), 
+    path('accounts/', include('allauth.urls')),
 ]
 
 urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
