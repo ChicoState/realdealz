@@ -78,6 +78,7 @@ class Game(models.Model):
     negative = models.CharField(max_length=100, default="-1")
     average_forever = models.CharField(max_length=100, default="-1")
     average_2weeks = models.CharField(max_length=100, default="-1")
+    cover = models.ImageField(upload_to='images/')
 
 
     #Field can include multiple MultiFields. This allows multiple platforms and genres per game entry
