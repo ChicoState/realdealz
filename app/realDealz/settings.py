@@ -22,7 +22,8 @@ load_dotenv(find_dotenv())
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
-#TEMPLATES_DIR = os.path.join(BASE_DIR, "templates") #for template dir
+
+MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/1.11/howto/deployment/checklist/
@@ -65,12 +66,13 @@ MIDDLEWARE = [
 
 ROOT_URLCONF = 'realDealz.urls'
 
-TEMPLATES_DIR = os.path.join(BASE_DIR, 'templates')
+TEMPLATES_DIR = os.path.join(BASE_DIR, 'templates/realDealz')
+TEMPLATES_ROOT = os.path.join(BASE_DIR, 'templates')
 
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [TEMPLATES_DIR],
+        'DIRS': [TEMPLATES_DIR,TEMPLATES_ROOT],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
@@ -139,4 +141,3 @@ USE_TZ = True
 
 STATIC_URL = '/static/'
 MEDIA_URL = '/media/'
-MEDIA_ROOT = os.path.join(BASE_DIR, 'media/')

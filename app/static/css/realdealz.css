@@ -68,3 +68,10 @@ nav{
   .sidenav {padding-top: 15px;}
   .sidenav a {font-size: 18px;}
 }
+
+@media (prefers-color-scheme: light) {
+  body, h1, h2, h3 {
+    background-color: white;
+    color: black;
+  }
+}

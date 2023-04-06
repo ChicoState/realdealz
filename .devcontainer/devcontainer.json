@@ -24,6 +24,9 @@
                 "pylint.path": ["/usr/local/bin/pylint"],
                 "python.linting.pylintArgs": [
                     "--load-plugins=pylint_django"
+                ],
+                "errorLens.enabledDiagnosticLevels": [
+                    "error"
                 ]
             }
 		}
