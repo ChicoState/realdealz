@@ -6,8 +6,14 @@
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
     <link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap-theme.min.css" rel="stylesheet" />
     <link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css" rel="stylesheet" />
+
+    <!--DECLARES ALL CSS BEING USED FOR ALL TEMPLATES-->
     <link rel="stylesheet" type="text/css" href="{% static 'css/main.css' %}" />
     <link rel="stylesheet" type="text/css" href="{% static 'css/realdealz.css' %}" />
+    <link rel="stylesheet" type="text/css" href="{% static 'css/blackborder.css' %}" />    
+    <link rel="stylesheet" type="text/css" href="{% static 'css/wraptext.css' %}" />    
+    <link rel="stylesheet" type="text/css" href="{% static 'css/tableorganizer.css' %}" />          
+    <link rel="stylesheet" type="text/css" href="{% static 'css/buttonoverlay.css' %}" />         
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <script>
       function openNav() {
@@ -50,7 +56,7 @@
               <form method="get" action="{% url 'game_search' %}">
                 {% csrf_token %}
                 <div class="input-group">
-                  <input id="searchBox" type="text" class="form-control" name="q" placeholder="Search Games" />
+                  <input id="filtered_name" type="text" class="form-control" name="filtered_name" placeholder="Search Games" />
                   <div class="input-group-btn">
                     <button class="btn btn-default" type="submit">
                       <span class="glyphicon glyphicon-search"></span>

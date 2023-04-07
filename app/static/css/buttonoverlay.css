@@ -1,0 +1,9 @@
+.buttonoverlay {
+  float: left;
+  margin-left: 20px; /* Adjust as needed */
+}
+
+a {
+  display: block;
+  margin-bottom: 10px; /* Adjust as needed */
+}
