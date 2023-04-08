@@ -5,10 +5,6 @@ from . import library as lib
 
 # Model attributes are declared here
 
-# ImageField requires Pillow to use. WIP
-# cover = models.ImageField(upload_to='images/')
-
-
 #Allow multiple platforms
 class Platform(models.Model):
     '''Model representing a game genre'''
@@ -70,7 +66,7 @@ class Game(models.Model):
     '''Generic Game model'''
     appid = models.AutoField(primary_key=True)
     name = models.CharField(max_length=100, default="Empty Game", help_text='Give title')
-    price = models.CharField(max_length=20, default="-1")
+    price = models.FloatField(default="-1")
     discount = models.CharField(max_length=20, default="-1")
     developer = models.CharField(max_length=100, default="Unknown")
     publisher = models.CharField(max_length=100, default="Unknown")
@@ -78,7 +74,7 @@ class Game(models.Model):
     negative = models.CharField(max_length=100, default="-1")
     average_forever = models.CharField(max_length=100, default="-1")
     average_2weeks = models.CharField(max_length=100, default="-1")
-    cover = models.ImageField(upload_to='images/')
+    cover = models.ImageField(upload_to='images/', default='images/default.png')
 
 
     #Field can include multiple MultiFields. This allows multiple platforms and genres per game entry

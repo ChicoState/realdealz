@@ -22,7 +22,7 @@ from django.conf import settings
 
 urlpatterns = [
     path('', home.home, name='home'),
-    path('catalog/', home.catalog.as_view(), name='catalog'),
+    path('catalog/', home.game_list, name='catalog'),
     path('about/', home.about, name='about'),
     path('contact/', home.contact, name='contact'),
     path('search/', home.game_search, name='game_search'),

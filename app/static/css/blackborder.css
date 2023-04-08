@@ -1,0 +1,4 @@
+.blackborder {
+  border: 1px solid black; /* sets a 2-pixel-wide solid black border */
+  margin-left: 20px;  
+}
