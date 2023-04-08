@@ -37,7 +37,7 @@
 
     // "onCreateCommand": "pip install -r dev_tools.txt --no-cache-dir",
 
-    "updateContentCommand": "ash postCreate.sh",
+    "updateContentCommand": "ash postCreate.sh &",
 
     
     // Optional depending on your workflow

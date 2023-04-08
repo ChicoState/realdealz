@@ -1,7 +1,7 @@
 from django.db import models
 from django.urls import reverse
 import logging as log
-from library import Library as lib
+import realDealz.library as lib
 
 # Model attributes are declared here
 
