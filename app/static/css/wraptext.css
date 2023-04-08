@@ -1,0 +1,5 @@
+.wraptext {
+  width: 100%; /* Optional: adjust the width to fit your design */
+  overflow: hidden; /* Prevents the container from collapsing */
+  padding-right: 20px; /* Creates some space on the right side */
+}
