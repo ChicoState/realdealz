@@ -55,6 +55,7 @@
               <form method="get" action="{% url 'game_search' %}">
                 {% csrf_token %}
                 <div class="input-group">
+
                   <input id="filtered_name" type="text" class="form-control" name="filtered_name" placeholder="Search Games" />
                   <div class="input-group-btn">
                     <button class="btn btn-default" type="submit">
