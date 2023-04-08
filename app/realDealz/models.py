@@ -1,7 +1,7 @@
 from django.db import models
 from django.urls import reverse
 import logging as log
-from . import library as lib
+from library import Library as lib
 
 # Model attributes are declared here
 
@@ -74,6 +74,8 @@ class Game(models.Model):
             # If the game is already in the database, skip it
             if Game.objects.filter(appid=_g['appid']).exists():
                 continue
+            if _g['price'] == 999:  
+                _g['price'] = 0 
             # We can also verify the price here. 
             _game = Game.objects.create(
                 appid = _g['appid'],
