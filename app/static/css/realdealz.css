@@ -78,7 +78,7 @@ p {
 }
 
 @media (prefers-color-scheme: light) {
-  body, h1, h2, h3 {
+  body, h1, h2, h3, td, th {
     background-color: white;
     color: black;
   }

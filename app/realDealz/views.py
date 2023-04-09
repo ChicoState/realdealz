@@ -78,6 +78,11 @@ def game_list(request):
         filter_value = request.POST.get('filtered_price')
         filter_id = request.POST.get('filtered_id')
         filter_developer = request.POST.get('filtered_developer')
+
+
+        filter_highestprice = request.POST.get('highest_price')
+        filter_lowestprice = request.POST.get('lowest_price')
+        clear = request.POST.get('clear')
         
 
 
@@ -87,6 +92,10 @@ def game_list(request):
             filtered_table = Game.objects.filter(appid=filter_id)
         elif filter_developer:
             filtered_table = Game.objects.filter(Q(developer__icontains=filter_developer))
+        elif filter_highestprice:
+            filtered_table = Game.objects.order_by('-price')
+        elif filter_lowestprice:
+            filtered_table = Game.objects.order_by('price')
         else:
             filtered_table = Game.objects.all()
     else:
