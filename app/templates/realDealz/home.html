@@ -6,19 +6,22 @@
 
 {% block content %}
     <div>
-        <h1> {{ msg }}</h1>
-        {% comment %} <form method="get" action="">
-            {% csrf_token %}
-            <input type="text" name="q" placeholder="Search..." />
-            <button type="submit">Go</button>
-        </form> {% endcomment %}
+        <h1>Control Panel</h1>
     </div>
-
     <div>
-        <form method="POST" >
+        <form method="post" >
             {% csrf_token %}
             <button type="submit" name="load" class="btn btn-primary">Initial_load</button>
-            <button type="submit" name="reset" class="btn btn-outline-warning">Reset</button>
-        </form>
+            <button type="submit" name="reset" class="btn btn-scondary">Reset</button>
+    </form>
     </div>
+
+    <div> 
+        <button type="submit" name="steam-login"> <img src="{% static 'images/sits_01.png' %}" alt="arrow"/> </button>
+    </div> 
+
+    
+
 {% endblock content %}
+
+π
