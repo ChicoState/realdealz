@@ -52,13 +52,16 @@ class Library:
         '''Loads the credentials from .env file if it exists'''
         if not os.path.exists('.env'):# if .env file exists  use it to load the credentials
             log.error("No .env file found")
-            return
+            throw(Exception("No .env file found"))
+            
         env = Env()
         env.read_env()
-        self._secret = env.str("Client_secret")
-        self._id = env.str("Client_id")
+        self._secret = env.str("TWITCH_CLIENT_SECRET")
+        self._id = env.str("TWITCH_CLIENT_ID")
+
         if not self._secret or not self._id:
             log.error("Client_secret or Client_id is not defined")
+            throw(Exception("Client_secret or Client_id is not defined"))
 
 
     def get_auth_token(self):
@@ -131,6 +134,7 @@ class Library:
         _headers.update(self.a_header)
         if p_headers is not None:
             _headers.update(p_headers)
+
         result = json.loads(http.request(
             'POST',
             url,
@@ -142,6 +146,6 @@ class Library:
 # This is for testing
 # It will only run if this file is run directly
 if __name__ == "__main__":
-    library = Library()
+    library = Library(True, True)
     # print(library.search_all())
-    print(library.get_top_100())
+    # print(library.get_top_100())
