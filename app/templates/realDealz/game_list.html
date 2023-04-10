@@ -2,6 +2,10 @@
 {% block content %}
 
 <style>
+  .blue {
+    color: blue;
+  }
+
   li {
     font-size: 18px;
   }
@@ -27,7 +31,7 @@
   }
 
   th, td {
-  word-wrap: break-word;
+    word-wrap: break-word;
   }
 
 </style>
@@ -40,21 +44,36 @@
     {% csrf_token %}
     <label for="filtered_price" style="width: 110px;">Maximum Cost:</label>
     <input type="text" name="filtered_price" id="filtered_price" style="width: 50px;">
-    <input type="submit" value="Filter">
+    <input class="blue" type="submit" value="Filter">
   </form>
   <form method="post">
     {% csrf_token %}
     <label for="filtered_id" style="width: 110px;">ID:</label>
     <input type="text" name="filtered_id" id="filtered_id" style="width: 50px;">
-    <input type="submit" value="Filter">
+    <input class="blue" type="submit" value="Filter">
   </form>  
   <form method="post">
     {% csrf_token %}
     <label for="filtered_developer" style="width: 110px;">Developer:</label>
     <br>
     <input type="text" name="filtered_developer" id="filtered_developer" style="width: 160px;">
-    <input type="submit" value="Filter">
+    <input class="blue" type="submit" value="Filter">
   </form>       
+  <br>
+  <form method="post">
+    {% csrf_token %}    
+    <button class="blue" type="submit" name="highest_price" value="highest_price" style="width: 110px;">Highest Price</button>
+  </form>
+  <br>
+  <form method="post">
+    {% csrf_token %}    
+    <button class="blue" type="submit" name="lowest_price" value="lowest_price" style="width: 110px;">Lowest Price</button>
+  </form>   
+  <br>
+  <form method="post">
+    {% csrf_token %}    
+    <button class="blue" type="submit" name="clear" value="clear" style="width: 110px;">Clear Filters</button>
+  </form>   
 </div>
 
 <table class="tableorganizer">
@@ -62,7 +81,7 @@
     <tr>
       <th>ID</th>
       <th>Game Title</th>
-      <th>Price</th>        
+      <th>Price</th>
       <th>Developer</th>
     </tr>
   </thead>
@@ -88,6 +107,7 @@
     {% endif %}      
   </tbody>
 </table>
+
 
 <br>
 <br>
