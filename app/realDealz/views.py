@@ -1,11 +1,13 @@
 from django.http import HttpResponse
 from django.views import generic
 from django.shortcuts import render, redirect
-from .models import Game
+from realDealz.models import Game
 from django.db.models import Q
 from django.db import connection
-from .library import Library
+from realDealz.library import Library
 from django.core.paginator import Paginator
+
+from realDealz.updateData import updateGamePrices
 
 
 def home(request):
@@ -17,6 +19,7 @@ def home(request):
     if request.method == 'POST':
         if 'load' in request.POST:
             Game.initial_load()
+            updateGamePrices()
             # return redirect('Catalog')
         if 'reset' in request.POST:
             Game.clear_all()
