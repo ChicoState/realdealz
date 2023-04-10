@@ -161,7 +161,7 @@ USE_TZ = True
 STATIC_URL = '/static/'
 MEDIA_URL = '/media/'
 
-_steam_id = env('STEAM_CLIENT_ID') if os.path.exists(os.path.join(BASE_DIR, '/.env')) else 'STEAM_CLIENT_ID'
+_steam_id = env('STEAM_CLIENT_ID')
 
 
 SITE_ID = 1
