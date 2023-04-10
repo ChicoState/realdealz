@@ -36,7 +36,7 @@ class Library:
         self.base = {
             "steamspy": "steamspy.com/api.php?request=",
             "igdb": "https://api.igdb.com/v4/",
-            "steam": "https://store.steampowered.com/api/",
+            "steam": "https://store.steampowered.com/",
         }
         self._id = None
         self._secret = None
@@ -52,9 +52,9 @@ class Library:
     
     def _load_cred(self):
         '''Loads the credentials from .env file if it exists'''
-        if not os.path.exists('.env'):# if .env file exists  use it to load the credentials
-            log.error("No .env file found")
-            throw(Exception("No .env file found"))
+        # if not os.path.exists('.env'):# if .env file exists  use it to load the credentials
+        #     log.error("No .env file found")
+        #     raise Exception("No .env file found")
             
         env = Env()
         env.read_env()
@@ -63,7 +63,7 @@ class Library:
 
         if not self._secret or not self._id:
             log.error("Client_secret or Client_id is not defined")
-            throw(Exception("Client_secret or Client_id is not defined"))
+            raise Exception("Client_secret or Client_id is not defined")
 
 
     def get_auth_token(self):
@@ -156,17 +156,22 @@ class Library:
 
         with open("amazing_image.jpg", "wb") as f:
             f.write(b)
-        
-
-
         return r.json()
 
+#!Fixme this doesn't work yet but it will soon
+    def get_wishlist(self, steam_id):
+        '''Get the wishlist of a steam user'''
+        _url = self.base['steam'] + f"wishlist/{steam_id}/wishlistdata/"
+        _headers = {"Accept": "application/json"}
+        req = requests.get(_url, headers=_headers)
 
+        return dir(req)
 
 def test_img():
     l = Library(True, True)
     # print(l.search_all())
-    print(l.get_images())
+    print(l.get_wishlist("76561198180301021"))
+    # print(l.get_images())
 
 # This is for testing
 # It will only run if this file is run directly
