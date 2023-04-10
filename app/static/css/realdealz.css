@@ -15,6 +15,14 @@ nav{
   list-style: none;
 }
 
+input::placeholder {
+  font: 12px/3 sans-serif;
+}
+
+p {
+  font-size: 14px;
+}
+
 .heading{
   color: #000000;
   text-transform: uppercase;
@@ -70,7 +78,7 @@ nav{
 }
 
 @media (prefers-color-scheme: light) {
-  body, h1, h2, h3 {
+  body, h1, h2, h3, td, th {
     background-color: white;
     color: black;
   }
