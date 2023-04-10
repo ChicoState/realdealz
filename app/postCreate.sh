@@ -30,7 +30,7 @@ pip install -r dev_tools.txt --no-cache-dir > /dev/null &
 createDockerAdminUser
 
 if [ $? -ne 0 ]; then
-    clear_models
+    clear_models.sh
     createDockerAdminUser
 else
     LOCAL_DIR="$(pwd)"

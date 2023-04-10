@@ -27,6 +27,9 @@ def home(request):
 
     return render(request, "home.html", context=context)
 
+def profile(request):
+    return render(request, "profile.html")
+
 
 def about(request):
     context = {
