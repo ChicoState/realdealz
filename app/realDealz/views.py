@@ -76,15 +76,13 @@ def game_list(request):
 
     games = Game.objects.all()
     filtered_table = None
+    filtered_table = Game.objects.all()
 
     if request.method == 'POST':
-        filter_value = request.POST.get('filtered_price')
         filter_id = request.POST.get('filtered_id')
         filter_developer = request.POST.get('filtered_developer')
 
-        if filter_value:
-            filtered_table = Game.objects.filter(price__lte=filter_value)
-        elif filter_id:
+        if filter_id:
             filtered_table = Game.objects.filter(appid=filter_id)
         elif filter_developer:
             filtered_table = Game.objects.filter(Q(developer__icontains=filter_developer))
@@ -97,6 +95,7 @@ def game_list(request):
     #paginator = Paginator(filtered_table, 50)    
     #page_number = request.GET.get('page')    
     #current_page = paginator.get_page(page_number)    
+    
 
     context = {
         'games': games,
