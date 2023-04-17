@@ -1,4 +1,4 @@
-from django.http import HttpResponse
+from django.http import HttpResponse, JsonResponse
 from django.views import generic
 from django.shortcuts import render, redirect
 from realDealz.models import Game
@@ -6,7 +6,7 @@ from django.db.models import Q
 from django.db import connection
 from realDealz.library import Library
 from django.core.paginator import Paginator
-
+from django.core import serializers
 from realDealz.updateData import updateGamePrices
 
 
@@ -43,6 +43,7 @@ def contact(request):
 
 
 def game_search(request):
+
     games = Game.objects.all()
     filtered_table = None
 
@@ -54,10 +55,15 @@ def game_search(request):
     else:
         filtered_table = Game.objects.all()
 
+    #paginator = Paginator(filtered_table, 80)    
+    #page_number = request.GET.get('page')    
+    #current_page = paginator.get_page(page_number)    
+
     context = {
         'games': games,
-        'filtered_table': filtered_table
-    }   
+        'filtered_table': filtered_table,
+        #'games_page': current_page,  
+    }
     return render(request, 'game_list.html', context)
 
 
@@ -69,25 +75,12 @@ def game_detail(request, game_id):
 def game_list(request):
 
     games = Game.objects.all()
-    paginator = Paginator(games, 10)    
-    page_number = request.GET.get('page')    
-    current_page = paginator.get_page(page_number)    
-
-    
     filtered_table = None
-
 
     if request.method == 'POST':
         filter_value = request.POST.get('filtered_price')
         filter_id = request.POST.get('filtered_id')
         filter_developer = request.POST.get('filtered_developer')
-
-
-        filter_highestprice = request.POST.get('highest_price')
-        filter_lowestprice = request.POST.get('lowest_price')
-        clear = request.POST.get('clear')
-        
-
 
         if filter_value:
             filtered_table = Game.objects.filter(price__lte=filter_value)
@@ -95,20 +88,19 @@ def game_list(request):
             filtered_table = Game.objects.filter(appid=filter_id)
         elif filter_developer:
             filtered_table = Game.objects.filter(Q(developer__icontains=filter_developer))
-        elif filter_highestprice:
-            filtered_table = Game.objects.order_by('-price')
-        elif filter_lowestprice:
-            filtered_table = Game.objects.order_by('price')
         else:
             filtered_table = Game.objects.all()
     else:
         filtered_table = Game.objects.all()
 
+    #Issues with Paginator: Filters don't stay when changing pages
+    #paginator = Paginator(filtered_table, 50)    
+    #page_number = request.GET.get('page')    
+    #current_page = paginator.get_page(page_number)    
+
     context = {
         'games': games,
         'filtered_table': filtered_table,
-        'games_page': current_page,
-        'total_pages': paginator.num_pages,
-        'current_page': current_page.number,        
+        #'games_page': current_page,  
     }
     return render(request, 'game_list.html', context)
