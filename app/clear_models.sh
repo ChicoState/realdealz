@@ -12,4 +12,5 @@ find . -path "*/migrations/*.pyc" -delete
 find . -path "*.sqlite3" -delete
 python manage.py makemigrations
 python manage.py migrate
+python manage.py migrate --run-syncdb
 cd $LOCAL_DIR
