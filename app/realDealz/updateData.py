@@ -2,6 +2,7 @@ from realDealz.models import Game
 import http.client
 import json
 import logging as log
+from bs4 import BeautifulSoup
 
 
 def updateGamePrices(): 
@@ -30,6 +31,10 @@ def updateGamePrices():
             game_data = response_json[str(appid)]['data']
 
             price_data = game_data.get('price_overview')
+            soup = BeautifulSoup(game_data.get('about_the_game'), 'html.parser')
+            about_data = soup.get_text().strip()
+            platform_data = game_data.get('platforms')
+            
 
             if price_data is None: 
                 # Happens when game is free to play
@@ -38,7 +43,7 @@ def updateGamePrices():
                 # print(f"{game_data.get('name')}")
             # Update price information in database
             game = Game.objects.get(appid=appid)
-
+    
             try: 
                 if price_data.get('final_formatted') is not None:
                     price = price_data['final_formatted'].split("$")[1].split(" ")[0]
@@ -49,6 +54,11 @@ def updateGamePrices():
                 else:
                     game.price = 0
                     game.discount = "N/A"
+             
+                if about_data:
+                    game.about = about_data
+                else:
+                    game.about = 'n/a'
                 game.save()
             except Exception as e: 
                 print(e)

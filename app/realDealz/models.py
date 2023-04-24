@@ -57,6 +57,8 @@ class Game(models.Model):
     average_forever = models.CharField(max_length=100, default="-1")
     average_2weeks = models.CharField(max_length=100, default="-1")
     cover = models.ImageField(upload_to='images/', default='images/default.png')
+    about = models.TextField()
+    ##platform = ArrayField(models.CharField(max_length=40,default = 'pc'))
 
     #Field can include multiple MultiFields. This allows multiple platforms and genres per game entry
     platform = models.ManyToManyField(Platform, help_text='Select Game platforms', default="PC")
