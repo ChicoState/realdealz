@@ -24,8 +24,15 @@ def home(request):
         if 'reset' in request.POST:
             Game.clear_all()
             # return redirect('Catalog')
+        if 'steam-login' in request.POST:
+            if request.user.is_authenticated:
+                return redirect('catalog/')
+            return redirect('accounts/steam/login/')
 
     return render(request, "home.html", context=context)
+
+def profile(request):
+    return render(request, "profile.html")
 
 
 def about(request):
