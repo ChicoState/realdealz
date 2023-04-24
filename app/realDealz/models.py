@@ -2,7 +2,6 @@ from django.db import models
 from django.urls import reverse
 import logging as log
 import realDealz.library as lib
-
 # Model attributes are declared here
 
 #Allow multiple platforms
@@ -30,7 +29,7 @@ class Genre(models.Model):
 class Seller(models.Model):
     '''Model representing the source seller'''
     sources = models.URLField(max_length = 200, default='https://www.google.com/')
-
+    
     def __str__(self):
         '''String for representing the Model object.'''
         return str(self.sources)
@@ -49,6 +48,7 @@ class Game(models.Model):
     appid = models.IntegerField(primary_key=True, help_text='Unique ID for this particular game')
     name = models.CharField(max_length=100, default="-1", help_text='Game title')
     price = models.FloatField(default="-1")
+    link = models.URLField(max_length = 200, default='https://www.google.com/')
     discount = models.CharField(max_length=20, default="-1")
     developer = models.CharField(max_length=100, default="Unknown")
     publisher = models.CharField(max_length=100, default="Unknown")
@@ -57,8 +57,6 @@ class Game(models.Model):
     average_forever = models.CharField(max_length=100, default="-1")
     average_2weeks = models.CharField(max_length=100, default="-1")
     cover = models.ImageField(upload_to='images/', default='images/default.png')
-    about = models.TextField()
-    ##platform = ArrayField(models.CharField(max_length=40,default = 'pc'))
 
     #Field can include multiple MultiFields. This allows multiple platforms and genres per game entry
     platform = models.ManyToManyField(Platform, help_text='Select Game platforms', default="PC")

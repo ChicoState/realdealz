@@ -35,6 +35,8 @@ def updateGamePrices():
             about_data = soup.get_text().strip()
             platform_data = game_data.get('platforms')
             
+            
+            url_data = game_data.get('url_link')
 
             if price_data is None: 
                 # Happens when game is free to play
@@ -48,9 +50,10 @@ def updateGamePrices():
                 if price_data.get('final_formatted') is not None:
                     price = price_data['final_formatted'].split("$")[1].split(" ")[0]
 
-                    print(f"{appid}: {price_data['final_formatted']} ... {price}")
+                    # print(f"{appid}: {price_data['final_formatted']} ... {price}")
                     game.price = price
                     game.discount = price_data.get('discount_percent', None)
+                    game.link = url
                 else:
                     game.price = 0
                     game.discount = "N/A"
