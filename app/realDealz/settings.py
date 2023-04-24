@@ -11,6 +11,7 @@ https://docs.djangoproject.com/en/1.11/ref/settings/
 """
 
 import os
+import logging as log
 
 from environs import Env
 from dotenv import load_dotenv
@@ -161,13 +162,19 @@ USE_TZ = True
 STATIC_URL = '/static/'
 MEDIA_URL = '/media/'
 
-_steam_id = env('STEAM_CLIENT_ID') if os.path.exists(os.path.join(BASE_DIR, '/.env')) else 'STEAM_CLIENT_ID',
+try: 
+    _steam_id = env('STEAM_CLIENT_ID')
+except: 
+    _steam_id = 'STEAM_CLIENT_ID'
+    log.error('STEAM_CLIENT_ID not found in .env file')
+
+SITE_ID = 1
 
 SOCIALACCOUNT_PROVIDERS = {
     'steam': {
         'APP' : {
-            'client_id': _steam_id
-            
+            'client_id': _steam_id,
+            'secret': _steam_id
         }
     },
     'battlenet': {

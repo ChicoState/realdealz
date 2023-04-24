@@ -1,0 +1,9 @@
+.centertext {
+  display: flex;
+  justify-content: center;
+  margin-top: 20px; /* Add some margin to separate from the table or other content */
+}
+
+.pagination {
+  display: inline-block; /* Ensure the pagination links are on a single line */
+}

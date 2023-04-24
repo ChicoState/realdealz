@@ -40,43 +40,38 @@
 
 <h1>Deals List</h1>
 <div class="buttonoverlay">
-  <form method="post">
-    {% csrf_token %}
-    <label for="filtered_price" style="width: 110px;">Maximum Cost:</label>
-    <input type="text" name="filtered_price" id="filtered_price" style="width: 50px;">
-    <input class="blue" type="submit" value="Filter">
-  </form>
-  <form method="post">
-    {% csrf_token %}
-    <label for="filtered_id" style="width: 110px;">ID:</label>
-    <input type="text" name="filtered_id" id="filtered_id" style="width: 50px;">
-    <input class="blue" type="submit" value="Filter">
-  </form>  
-  <form method="post">
-    {% csrf_token %}
-    <label for="filtered_developer" style="width: 110px;">Developer:</label>
-    <br>
-    <input type="text" name="filtered_developer" id="filtered_developer" style="width: 160px;">
-    <input class="blue" type="submit" value="Filter">
-  </form>       
+  <label for="max_price" style="width: 110px;">Maximum Cost:</label>
+  <input type="text" name="max_price" id="max_price" style="width: 50px; color: black;">
+  <button onclick="Setmax()" class="blue">Filter</button>
   <br>
-  <form method="post">
-    {% csrf_token %}    
-    <button class="blue" type="submit" name="highest_price" value="highest_price" style="width: 110px;">Highest Price</button>
-  </form>
+  <label for="max_price" style="width: 110px;">Minimum Cost:</label>
+  <input type="text" name="min_price" id="min_price" style="width: 50px; color: black;">
+  <button onclick="Setmin()" class="blue">Filter</button>
   <br>
-  <form method="post">
-    {% csrf_token %}    
-    <button class="blue" type="submit" name="lowest_price" value="lowest_price" style="width: 110px;">Lowest Price</button>
-  </form>   
+  <label for="set_id" style="width: 110px;">ID:</label>
+  <input type="text" name="set_id" id="set_id" style="width: 50px; color: black;">
+  <button onclick="FindID()" class="blue">Filter</button>
+  <br>
+  <label for="set_dev" style="width: 110px;">Developer:</label>
+  <br>  
+  <input type="text" name="set_dev" id="set_dev" style="width: 160px; color: black;">
+  <button onclick="FindDev()" class="blue">Filter</button>    
+  <br>
+  <br>
+  <button class="blue" style="width: 110px;" id="highest">Sort by Highest Price</button>
+  <br>
+  <br>
+  <button class="blue" style="width: 110px;" id="lowest">Sort by Lowest Price</button>
+  <br>
   <br>
   <form method="post">
     {% csrf_token %}    
     <button class="blue" type="submit" name="clear" value="clear" style="width: 110px;">Clear Filters</button>
   </form>   
+  <br>
 </div>
 
-<table class="tableorganizer">
+<table class="tableorganizer" id="tablegames">
   <thead>
     <tr>
       <th>ID</th>
@@ -95,15 +90,6 @@
         <td class="developer">{{ Game.developer }}</td>      
       </tr>
       {% endfor %}      
-    {% else %}
-      {% for Game in games %}
-        <tr>
-          <td class="id">{{ Game.appid }}</td>                  
-          <td class="name"><a href="{{ Game.get_absolute_url }}">{{ Game.name }}</a></td>
-          <td class="price">$ {{ Game.price }}</td>
-          <td class="developer">{{ Game.developer }}</td>      
-        </tr>
-      {% endfor %}
     {% endif %}      
   </tbody>
 </table>
@@ -115,5 +101,210 @@
 <br>
 <br>
 <br>
-{% endblock %}
 
+{% comment %}
+<div class="centertext">
+  <div class="pagination">
+    {% for num in games_page.paginator.page_range %}
+        {% if games_page.number == num %}
+            <span>{{ num }}</span>
+        {% elif num > games_page.number|add:'-3' and num < games_page.number|add:'3' %}
+            <a href="?page={{ num }}">{{ num }}</a>
+        {% endif %}
+    {% endfor %}
+  </div>
+</div>
+{% endcomment %}
+
+
+
+
+
+<script>
+
+  //Find Developer
+  function FindDev(){
+    var userInput = document.getElementById("set_dev").value;
+    var table = document.getElementById("tablegames");
+    var rows = [];
+
+    // Iterate over the rows of the table
+    for (var i = 0; i < table.rows.length; i++) {
+        var row = table.rows[i];
+        var cell = row.cells[3];
+
+        if (cell.innerText.includes(userInput)) {
+          rows.push(row);
+        }
+    }
+
+    // Clear the table body
+    var tbody = table.getElementsByTagName("tbody")[0];
+    tbody.innerHTML = "";
+
+    // Rebuild the table with the sorted rows
+    for (var i = 0; i < rows.length; i++) {
+        tbody.appendChild(rows[i]);
+    }
+  }
+
+  //Find ID
+  function FindID(){
+    var userInput = document.getElementById("set_id").value;
+    var limit = parseInt(userInput);
+    var table = document.getElementById("tablegames");
+    var rows = [];
+
+    // Iterate over the rows of the table
+    for (var i = 0; i < table.rows.length; i++) {
+        var row = table.rows[i];
+        var cell = row.cells[0];
+        if (parseInt(cell.innerText) == limit) {
+          rows.push(row);
+        }
+    }
+
+    // Clear the table body
+    var tbody = table.getElementsByTagName("tbody")[0];
+    tbody.innerHTML = "";
+
+    // Rebuild the table with the sorted rows
+    for (var i = 0; i < rows.length; i++) {
+        tbody.appendChild(rows[i]);
+    }
+  }
+
+  //Set Minimum price
+  function Setmin(){
+    var userInput = document.getElementById("min_price").value;
+    var limit = parseFloat(userInput);
+    var table = document.getElementById("tablegames");
+    var rows = [];
+
+    // Iterate over the rows of the table
+    for (var i = 0; i < table.rows.length; i++) {
+        var row = table.rows[i];
+        var cell = row.cells[2];
+        var cellText = cell.innerText.replace('$', '').replace(',', '');
+
+        //Uncomment the line below to see what cellText contains
+        //console.log(parseFloat(cellText));
+
+        // Check if the cell value is less than or equal to the limit
+        if (parseFloat(cellText) >= limit) {
+          rows.push(row);
+        }
+    }
+
+    // Clear the table body
+    var tbody = table.getElementsByTagName("tbody")[0];
+    tbody.innerHTML = "";
+
+    // Rebuild the table with the sorted rows
+    for (var i = 0; i < rows.length; i++) {
+        tbody.appendChild(rows[i]);
+    }
+  }
+
+  //Set Maximum price
+  function Setmax(){
+    var userInput = document.getElementById("max_price").value;
+    var limit = parseFloat(userInput);
+    var table = document.getElementById("tablegames");
+    var rows = [];
+
+    // Iterate over the rows of the table
+    for (var i = 0; i < table.rows.length; i++) {
+        var row = table.rows[i];
+        var cell = row.cells[2];
+        var cellText = cell.innerText.replace('$', '').replace(',', '');
+
+        //Uncomment the line below to see what cellText contains
+        //console.log(parseFloat(cellText));
+
+        // Check if the cell value is less than or equal to the limit
+        if (parseFloat(cellText) <= limit) {
+          rows.push(row);
+        }
+    }
+
+    // Clear the table body
+    var tbody = table.getElementsByTagName("tbody")[0];
+    tbody.innerHTML = "";
+
+    // Rebuild the table with the sorted rows
+    for (var i = 0; i < rows.length; i++) {
+        tbody.appendChild(rows[i]);
+    }
+  }
+
+
+  //Activates when the page is loaded
+  document.addEventListener("DOMContentLoaded", function() {
+
+    //This code looks for the id "lowest" in the html page and triggers the function when a user clicks the id
+    document.getElementById("lowest").addEventListener("click", function() {
+
+      // Load table data into a variable, the table needs to have an id
+      var table = document.getElementById("tablegames");
+
+      // Create an array to store table rows
+      var rows = [];
+
+      // Iterate through table rows and store them in the array
+      for (var i = 0, row; row = table.rows[i]; i++) {
+          rows.push(row);
+      }
+
+      // Sort the array based on the value of the second cell (price)
+      rows.sort(function(a, b) {
+          var priceA = parseFloat(a.cells[2].innerHTML.replace(/[^0-9.]/g, ''));
+          var priceB = parseFloat(b.cells[2].innerHTML.replace(/[^0-9.]/g, ''));
+          return priceA - priceB;
+      });
+
+      // Clear the table body
+      var tbody = table.getElementsByTagName("tbody")[0];
+      tbody.innerHTML = "";
+
+      // Rebuild the table with the sorted rows
+      for (var i = 0; i < rows.length; i++) {
+          tbody.appendChild(rows[i]);
+      }
+    });
+
+
+    document.getElementById("highest").addEventListener("click", function() {
+
+      // Load table data into a variable
+      var table = document.getElementById("tablegames");
+
+      // Create an array to store table rows
+      var rows = [];
+
+      // Iterate through table rows and store them in the array
+      for (var i = 0, row; row = table.rows[i]; i++) {
+          rows.push(row);
+      }
+
+      // Sort the array based on the value of the second cell (price)
+      rows.sort(function(a, b) {
+          var priceA = parseFloat(a.cells[2].innerHTML.replace(/[^0-9.]/g, ''));
+          var priceB = parseFloat(b.cells[2].innerHTML.replace(/[^0-9.]/g, ''));
+          return priceB - priceA;
+      });
+
+      // Clear the table body
+      var tbody = table.getElementsByTagName("tbody")[0];
+      tbody.innerHTML = "";
+
+      // Rebuild the table with the sorted rows
+      for (var i = 0; i < rows.length; i++) {
+          tbody.appendChild(rows[i]);
+      }
+    });
+
+
+  });
+</script>
+{% endblock %}
