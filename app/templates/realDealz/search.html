@@ -5,7 +5,7 @@
     <meta charset="UTF-8" />
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
     <link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap-theme.min.css" rel="stylesheet" />
-    <link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css" rel="stylesheet" />
+    <link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css" rel="stylesheet" />   
     <link href="https://stackpath.bootstrapcdn.com/bootswatch/4.4.1/cyborg/bootstrap.min.css" rel="stylesheet" integrity="sha384-l7xaoY0cJM4h9xh1RfazbgJVUZvdtyLWPueWNtLAphf/UbBgOVzqbOTogxPwYLHM" crossorigin="anonymous">
     <link rel="stylesheet" type="text/css" href="{% static 'css/main.css' %}" />
     <link rel="stylesheet" type="text/css" href="{% static 'css/realdealz.css' %}" />
@@ -13,6 +13,7 @@
     <link rel="stylesheet" type="text/css" href="{% static 'css/wraptext.css' %}" />    
     <link rel="stylesheet" type="text/css" href="{% static 'css/tableorganizer.css' %}" />          
     <link rel="stylesheet" type="text/css" href="{% static 'css/buttonoverlay.css' %}" />         
+    <link rel="stylesheet" type="text/css" href="{% static 'css/centertext.css' %}" />         
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <script>
       function openNav() {
@@ -55,7 +56,7 @@
               <form method="get" action="{% url 'game_search' %}">
                 {% csrf_token %}
                 <div class="input-group">
-                  <input id="filtered_name" type="text" class="form-control" name="filtered_name" placeholder="Search Games" />
+                  <input id="filtered_name" type="text" class="form-control" name="filtered_name" placeholder="Search Games" style="color: black;"/>
                   <div class="input-group-btn">
                     <button class="btn btn-default" type="submit">
                       <span class="glyphicon glyphicon-search"></span>
