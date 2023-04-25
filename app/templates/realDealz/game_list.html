@@ -34,6 +34,40 @@
     word-wrap: break-word;
   }
 
+  .pagination {
+    display: flex;
+    list-style: none;
+    margin: 0;
+    padding: 0;
+  }
+
+  .pagination span {
+    font-size: 20px;
+    padding: 5px;
+  }
+
+  .pagination a {
+    font-size: 20px;
+    padding: 5px;
+  }
+  
+  .pagination li {
+    margin-right: 5px;
+  }
+  
+  .pagination li a {
+    display: block;
+    padding: 5px;
+    background-color: #eee;
+    color: #333;
+    text-decoration: none;
+  }
+  
+  .pagination li.active a {
+    background-color: #333;
+    color: #fff;
+  }
+
 </style>
 
 
@@ -42,26 +76,36 @@
 <div class="buttonoverlay">
   <label for="max_price" style="width: 110px;">Maximum Cost:</label>
   <input type="text" name="max_price" id="max_price" style="width: 50px; color: black;">
-  <button onclick="Setmax()" class="blue">Filter</button>
+  <button onclick="(() => {
+    var params = new URLSearchParams(window.location.search);
+    var page = params.get('page');
+    SortFunction(undefined, page);
+  })()" class="blue">Filter</button>
   <br>
   <label for="max_price" style="width: 110px;">Minimum Cost:</label>
   <input type="text" name="min_price" id="min_price" style="width: 50px; color: black;">
-  <button onclick="Setmin()" class="blue">Filter</button>
+  <button onclick="SortFunction(undefined)" class="blue">Filter</button>
   <br>
   <label for="set_id" style="width: 110px;">ID:</label>
   <input type="text" name="set_id" id="set_id" style="width: 50px; color: black;">
-  <button onclick="FindID()" class="blue">Filter</button>
+  <button onclick="SortFunction(undefine)" class="blue">Filter</button>
   <br>
   <label for="set_dev" style="width: 110px;">Developer:</label>
   <br>  
   <input type="text" name="set_dev" id="set_dev" style="width: 160px; color: black;">
-  <button onclick="FindDev()" class="blue">Filter</button>    
+  <button onclick="SortFunction(undefined, current_page.number)" class="blue">Filter</button>    
   <br>
   <br>
-  <button class="blue" style="width: 110px;" id="highest">Sort by Highest Price</button>
+  <label for="set_title" style="width: 110px;">Title:</label>
+  <br>  
+  <input type="text" name="set_title" id="set_title" style="width: 160px; color: black;">
+  <button onclick="SortFunction(undefined, current_page.number)" class="blue">Filter</button>    
   <br>
   <br>
-  <button class="blue" style="width: 110px;" id="lowest">Sort by Lowest Price</button>
+  <button class="blue" onclick="SortFunction('desc', current_page.number)" style="width: 110px;" id="highest">Sort by Highest Price</button>
+  <br>
+  <br>
+  <button class="blue" onclick="SortFunction('asc', current_page.number)" style="width: 110px;" id="lowest">Sort by Lowest Price</button>
   <br>
   <br>
   <form method="post">
@@ -82,7 +126,7 @@
   </thead>
   <tbody>
     {% if filtered_table %}
-      {% for Game in filtered_table %}
+      {% for Game in current_page %}
       <tr>
         <td class="id">{{ Game.appid }}</td>        
         <td class="name"><a href="{{ Game.get_absolute_url }}">{{ Game.name }}</a></td>
@@ -102,19 +146,17 @@
 <br>
 <br>
 
-{% comment %}
 <div class="centertext">
   <div class="pagination">
-    {% for num in games_page.paginator.page_range %}
-        {% if games_page.number == num %}
+    {% for num in current_page.paginator.page_range %}
+        {% if current_page.number == num %}
             <span>{{ num }}</span>
-        {% elif num > games_page.number|add:'-3' and num < games_page.number|add:'3' %}
+        {% elif num > current_page.number|add:'-2' and num < current_page.number|add:'2' %}
             <a href="?page={{ num }}">{{ num }}</a>
         {% endif %}
     {% endfor %}
   </div>
 </div>
-{% endcomment %}
 
 
 
@@ -122,189 +164,164 @@
 
 <script>
 
-  //Find Developer
-  function FindDev(){
-    var userInput = document.getElementById("set_dev").value;
-    var table = document.getElementById("tablegames");
-    var rows = [];
+  async function SortFunction(sortby, pageNum) {
 
-    // Iterate over the rows of the table
-    for (var i = 0; i < table.rows.length; i++) {
-        var row = table.rows[i];
-        var cell = row.cells[3];
 
-        if (cell.innerText.includes(userInput)) {
-          rows.push(row);
+    $.ajax({
+      url: '/games_api/',
+      type: 'GET',
+      data: {
+        page: pageNum
+      },
+      success: function(response) {
+        var data = response.data;
+        var max_price = document.getElementById("max_price").value;
+        var min_price = document.getElementById("min_price").value;
+        var dev = document.getElementById("set_dev").value;
+        var id = document.getElementById("set_id").value;
+        var title = document.getElementById("set_title").value;
+      
+        //Debug output. Checks the variables
+        console.log("PAGE WE'RE ON: ", pageNum);
+        console.log("GIVEN MAX PRICE: ", max_price);
+        console.log("GIVEN MIN PRICE: ", min_price);
+        console.log("GIVEN DEVELOPER: ", dev);
+        console.log("GIVEN ID: ", id);
+    
+    
+        // Sort the data based on price
+        if (sortby)
+        {
+          data.sort(function(row1, row2) {
+            if (sortby == 'asc') {
+              return row1.price - row2.price;
+            }
+            if (sortby == 'desc') {
+              return row2.price - row1.price;
+            }
+    
+          });      
         }
-    }
-
-    // Clear the table body
-    var tbody = table.getElementsByTagName("tbody")[0];
-    tbody.innerHTML = "";
-
-    // Rebuild the table with the sorted rows
-    for (var i = 0; i < rows.length; i++) {
-        tbody.appendChild(rows[i]);
-    }
-  }
-
-  //Find ID
-  function FindID(){
-    var userInput = document.getElementById("set_id").value;
-    var limit = parseInt(userInput);
-    var table = document.getElementById("tablegames");
-    var rows = [];
-
-    // Iterate over the rows of the table
-    for (var i = 0; i < table.rows.length; i++) {
-        var row = table.rows[i];
-        var cell = row.cells[0];
-        if (parseInt(cell.innerText) == limit) {
-          rows.push(row);
+    
+    
+    
+        // Clear the table body
+        var table = document.getElementById("tablegames");
+        table.classList.add('tableorganizer');
+        var tbody = table.getElementsByTagName("tbody")[0];
+        tbody.innerHTML = "";
+    
+        // Rebuild the table with the sorted rows
+        for (var i = 0; i < data.length; i++) {
+    
+          let condition = true;
+          var row = document.createElement("tr");
+    
+          var appid = document.createElement("td");
+          appid.innerText = data[i].appid;
+          appid.classList.add('appid');
+          row.appendChild(appid);
+    
+          var name = document.createElement("td");
+          const link = document.createElement('a');
+          link.href = data[i].appid;
+          link.innerText = data[i].name;
+          name.appendChild(link);
+          name.classList.add('name');
+          row.appendChild(name);
+    
+          //Formatting price correctly
+          var price = document.createElement("td");
+          if (data[i].price == 0)
+          {
+            price.innerText = "Free";
+          }
+          else
+          {
+            price.textContent = "$" + data[i].price;
+            var check_number = true;
+            var priceLength = price.textContent.length;
+            for (var char of price.textContent)
+            {
+              if (char === '.')
+              {
+                check_number = false;
+                break;
+              }
+            }    
+            if (check_number)
+            {
+              price.textContent = "$" + data[i].price + ".00";
+            }
+            price.classList.add('price');
+          }
+    
+    
+          row.appendChild(price);
+    
+          var developer = document.createElement("td");
+          developer.innerText = data[i].developer;
+          developer.classList.add('developer');
+          row.appendChild(developer);
+    
+    
+          //Apply additional filters
+          if (max_price)
+          {
+            if (data[i].price >= max_price)
+            {
+              condition = false;
+            }
+          }
+          if (min_price)
+          {
+            if (data[i].price < min_price)
+            {
+              condition = false;
+            }
+          }
+          if (dev)
+          {
+            if (!data[i].developer.includes(dev))
+            {
+              condition = false;
+            }
+          }
+          if (id)
+          {
+            if (data[appid] != appid)
+            {
+              condition = false;
+            }       
+          }
+          if (title)
+          {
+            if (!data[i].name.includes(title))
+            {
+              condition = false;
+            }    
+          }
+    
+          if (condition)
+          {
+            tbody.appendChild(row);
+          }
+    
         }
-    }
 
-    // Clear the table body
-    var tbody = table.getElementsByTagName("tbody")[0];
-    tbody.innerHTML = "";
-
-    // Rebuild the table with the sorted rows
-    for (var i = 0; i < rows.length; i++) {
-        tbody.appendChild(rows[i]);
-    }
-  }
-
-  //Set Minimum price
-  function Setmin(){
-    var userInput = document.getElementById("min_price").value;
-    var limit = parseFloat(userInput);
-    var table = document.getElementById("tablegames");
-    var rows = [];
-
-    // Iterate over the rows of the table
-    for (var i = 0; i < table.rows.length; i++) {
-        var row = table.rows[i];
-        var cell = row.cells[2];
-        var cellText = cell.innerText.replace('$', '').replace(',', '');
-
-        //Uncomment the line below to see what cellText contains
-        //console.log(parseFloat(cellText));
-
-        // Check if the cell value is less than or equal to the limit
-        if (parseFloat(cellText) >= limit) {
-          rows.push(row);
-        }
-    }
-
-    // Clear the table body
-    var tbody = table.getElementsByTagName("tbody")[0];
-    tbody.innerHTML = "";
-
-    // Rebuild the table with the sorted rows
-    for (var i = 0; i < rows.length; i++) {
-        tbody.appendChild(rows[i]);
-    }
-  }
-
-  //Set Maximum price
-  function Setmax(){
-    var userInput = document.getElementById("max_price").value;
-    var limit = parseFloat(userInput);
-    var table = document.getElementById("tablegames");
-    var rows = [];
-
-    // Iterate over the rows of the table
-    for (var i = 0; i < table.rows.length; i++) {
-        var row = table.rows[i];
-        var cell = row.cells[2];
-        var cellText = cell.innerText.replace('$', '').replace(',', '');
-
-        //Uncomment the line below to see what cellText contains
-        //console.log(parseFloat(cellText));
-
-        // Check if the cell value is less than or equal to the limit
-        if (parseFloat(cellText) <= limit) {
-          rows.push(row);
-        }
-    }
-
-    // Clear the table body
-    var tbody = table.getElementsByTagName("tbody")[0];
-    tbody.innerHTML = "";
-
-    // Rebuild the table with the sorted rows
-    for (var i = 0; i < rows.length; i++) {
-        tbody.appendChild(rows[i]);
-    }
-  }
-
-
-  //Activates when the page is loaded
-  document.addEventListener("DOMContentLoaded", function() {
-
-    //This code looks for the id "lowest" in the html page and triggers the function when a user clicks the id
-    document.getElementById("lowest").addEventListener("click", function() {
-
-      // Load table data into a variable, the table needs to have an id
-      var table = document.getElementById("tablegames");
-
-      // Create an array to store table rows
-      var rows = [];
-
-      // Iterate through table rows and store them in the array
-      for (var i = 0, row; row = table.rows[i]; i++) {
-          rows.push(row);
-      }
-
-      // Sort the array based on the value of the second cell (price)
-      rows.sort(function(a, b) {
-          var priceA = parseFloat(a.cells[2].innerHTML.replace(/[^0-9.]/g, ''));
-          var priceB = parseFloat(b.cells[2].innerHTML.replace(/[^0-9.]/g, ''));
-          return priceA - priceB;
-      });
-
-      // Clear the table body
-      var tbody = table.getElementsByTagName("tbody")[0];
-      tbody.innerHTML = "";
-
-      // Rebuild the table with the sorted rows
-      for (var i = 0; i < rows.length; i++) {
-          tbody.appendChild(rows[i]);
-      }
-    });
-
-
-    document.getElementById("highest").addEventListener("click", function() {
-
-      // Load table data into a variable
-      var table = document.getElementById("tablegames");
-
-      // Create an array to store table rows
-      var rows = [];
-
-      // Iterate through table rows and store them in the array
-      for (var i = 0, row; row = table.rows[i]; i++) {
-          rows.push(row);
-      }
-
-      // Sort the array based on the value of the second cell (price)
-      rows.sort(function(a, b) {
-          var priceA = parseFloat(a.cells[2].innerHTML.replace(/[^0-9.]/g, ''));
-          var priceB = parseFloat(b.cells[2].innerHTML.replace(/[^0-9.]/g, ''));
-          return priceB - priceA;
-      });
-
-      // Clear the table body
-      var tbody = table.getElementsByTagName("tbody")[0];
-      tbody.innerHTML = "";
-
-      // Rebuild the table with the sorted rows
-      for (var i = 0; i < rows.length; i++) {
-          tbody.appendChild(rows[i]);
+      },
+      error: function(error) {
+        console.log(error);
       }
     });
+  }
 
+  //This function runs SortFunction upon loading the page. Only way to turn 0 -> Free in price
+  window.onload = function() {
+    var params = new URLSearchParams(window.location.search);
+    var page = params.get('page');
+    SortFunction(undefined, page);
+  };
 
-  });
 </script>
 {% endblock %}
