@@ -1,0 +1,65 @@
+.blue {
+    color: blue;
+  }
+
+  li {
+    font-size: 18px;
+  }
+
+  table {
+    table-layout: fixed;  
+  }
+
+  th.id, td.id {
+    width: 50px;
+  }  
+
+  th.name, td.name {
+    width: 400px;
+  }
+
+  th.price, td.price {
+    width: 100px;
+  }
+
+  th.developer, td.developer {
+    width: 800px;
+  }
+
+  th, td {
+    word-wrap: break-word;
+  }
+
+  .pagination {
+    display: flex;
+    list-style: none;
+    margin: 0;
+    padding: 0;
+  }
+
+  .pagination span {
+    font-size: 20px;
+    padding: 5px;
+  }
+
+  .pagination a {
+    font-size: 20px;
+    padding: 5px;
+  }
+  
+  .pagination li {
+    margin-right: 5px;
+  }
+  
+  .pagination li a {
+    display: block;
+    padding: 5px;
+    background-color: #eee;
+    color: #333;
+    text-decoration: none;
+  }
+  
+  .pagination li.active a {
+    background-color: #333;
+    color: #fff;
+  }

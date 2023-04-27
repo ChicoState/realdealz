@@ -1,142 +1,88 @@
-{% extends "search.html" %}
-{% block content %}
+{% extends "search.html" %} {% load static %} {% block content %}
 
-<style>
-  .blue {
-    color: blue;
-  }
-
-  li {
-    font-size: 18px;
-  }
-
-  table {
-    table-layout: fixed;  
-  }
-
-  th.id, td.id {
-    width: 50px;
-  }  
-
-  th.name, td.name {
-    width: 400px;
-  }
-
-  th.price, td.price {
-    width: 100px;
-  }
-
-  th.developer, td.developer {
-    width: 800px;
-  }
-
-  th, td {
-    word-wrap: break-word;
-  }
-
-  .pagination {
-    display: flex;
-    list-style: none;
-    margin: 0;
-    padding: 0;
-  }
-
-  .pagination span {
-    font-size: 20px;
-    padding: 5px;
-  }
-
-  .pagination a {
-    font-size: 20px;
-    padding: 5px;
-  }
-  
-  .pagination li {
-    margin-right: 5px;
-  }
-  
-  .pagination li a {
-    display: block;
-    padding: 5px;
-    background-color: #eee;
-    color: #333;
-    text-decoration: none;
-  }
-  
-  .pagination li.active a {
-    background-color: #333;
-    color: #fff;
-  }
-
-</style>
-
+<link rel="stylesheet" href="{% static 'css/catalog.css' %}" />
+<script src="{% static 'js/catalog.js' %}"></script>
 
 
 <h1>Deals List</h1>
 <div class="buttonoverlay">
-  <label for="max_price" style="width: 110px;">Maximum Cost:</label>
-  <input type="text" name="max_price" id="max_price" style="width: 50px; color: black;">
+  <label for="max_price" style="width: 110px">Maximum Cost:</label>
+  <input type="text" name="max_price" id="max_price" style="width: 50px; color: black" />
   <button onclick="(() => {
     var params = new URLSearchParams(window.location.search);
     var page = params.get('page');
     SortFunction(undefined, page);
-  })()" class="blue">Filter</button>
-  <br>
-  <label for="max_price" style="width: 110px;">Minimum Cost:</label>
-  <input type="text" name="min_price" id="min_price" style="width: 50px; color: black;">
+  })()" class="blue">
+    Filter
+  </button>
+  <br />
+  <label for="max_price" style="width: 110px">Minimum Cost:</label>
+  <input type="text" name="min_price" id="min_price" style="width: 50px; color: black" />
   <button onclick="(() => {
     var params = new URLSearchParams(window.location.search);
     var page = params.get('page');
     SortFunction(undefined, page);
-  })()" class="blue">Filter</button>
-  <br>
-  <label for="set_id" style="width: 110px;">ID:</label>
-  <input type="text" name="set_id" id="set_id" style="width: 50px; color: black;">
+  })()" class="blue">
+    Filter
+  </button>
+  <br />
+  <label for="set_id" style="width: 110px">ID:</label>
+  <input type="text" name="set_id" id="set_id" style="width: 50px; color: black" />
   <button onclick="(() => {
     var params = new URLSearchParams(window.location.search);
     var page = params.get('page');
     SortFunction(undefined, page);
-  })()" class="blue">Filter</button>
-  <br>
-  <label for="set_dev" style="width: 110px;">Developer:</label>
-  <br>  
-  <input type="text" name="set_dev" id="set_dev" style="width: 160px; color: black;">
+  })()" class="blue">
+    Filter
+  </button>
+  <br />
+  <label for="set_dev" style="width: 110px">Developer:</label>
+  <br />
+  <input type="text" name="set_dev" id="set_dev" style="width: 160px; color: black" />
   <button onclick="(() => {
     var params = new URLSearchParams(window.location.search);
     var page = params.get('page');
     SortFunction(undefined, page);
-  })()" class="blue">Filter</button>
-  <br>
-  <br>
-  <label for="set_title" style="width: 110px;">Title:</label>
-  <br>  
-  <input type="text" name="set_title" id="set_title" style="width: 160px; color: black;">
+  })()" class="blue">
+    Filter
+  </button>
+  <br />
+  <br />
+  <label for="set_title" style="width: 110px">Title:</label>
+  <br />
+  <input type="text" name="set_title" id="set_title" style="width: 160px; color: black" />
   <button onclick="(() => {
     var params = new URLSearchParams(window.location.search);
     var page = params.get('page');
     SortFunction(undefined, page);
-  })()" class="blue">Filter</button>
-  <br>
-  <br>
+  })()" class="blue">
+    Filter
+  </button>
+  <br />
+  <br />
   <button class="blue" onclick="(() => {
     var params = new URLSearchParams(window.location.search);
     var page = params.get('page');
     SortFunction('desc', page);
-  })()" style="width: 110px;" id="highest">Sort by Highest Price</button>
-  <br>
-  <br>
+  })()" style="width: 110px" id="highest">
+    Sort by Highest Price
+  </button>
+  <br />
+  <br />
   <button class="blue" onclick="(() => {
     var params = new URLSearchParams(window.location.search);
     var page = params.get('page');
     SortFunction('asc', page);
-  })()" style="width: 110px;" id="lowest">Sort by Lowest Price</button>
-  <br>
-  <br>
+  })()" style="width: 110px" id="lowest">
+    Sort by Lowest Price
+  </button>
+  <br />
+  <br />
   <form method="post">
-    {% csrf_token %}    
-    <button class="blue" type="submit" name="clear" value="clear" style="width: 110px;">Clear Filters</button>
-  </form>   
-  <br>
+    {% csrf_token %}
+    <button class="blue" type="submit" name="clear" value="clear" style="width: 110px">Clear Filters</button>
+  </form>
+  <br />
 </div>
 
 <table class="tableorganizer" id="tablegames">
@@ -149,203 +95,32 @@
     </tr>
   </thead>
   <tbody>
-    {% if filtered_table %}
-      {% for Game in current_page %}
-      <tr>
-        <td class="id">{{ Game.appid }}</td>        
-        <td class="name"><a href="{{ Game.get_absolute_url }}">{{ Game.name }}</a></td>
-        <td class="price">$ {{ Game.price }}</td>
-        <td class="developer">{{ Game.developer }}</td>      
-      </tr>
-      {% endfor %}      
-    {% endif %}      
+    {% if filtered_table %} {% for Game in current_page %}
+    <tr>
+      <td class="id">{{ Game.appid }}</td>
+      <td class="name"><a href="{{ Game.get_absolute_url }}">{{ Game.name }}</a></td>
+      <td class="price">$ {{ Game.price }}</td>
+      <td class="developer">{{ Game.developer }}</td>
+    </tr>
+    {% endfor %} {% endif %}
   </tbody>
 </table>
 
-
-<br>
-<br>
-<br> 
-<br>
-<br>
-<br>
+<br />
+<br />
+<br />
+<br />
+<br />
+<br />
 
 <div class="centertext">
   <div class="pagination">
-    {% for num in current_page.paginator.page_range %}
-        {% if current_page.number == num %}
-            <span>{{ num }}</span>
-        {% elif num > current_page.number|add:'-2' and num < current_page.number|add:'2' %}
-            <a href="?page={{ num }}">{{ num }}</a>
-        {% endif %}
-    {% endfor %}
+    {% for num in current_page.paginator.page_range %} {% if current_page.number == num %}
+    <span>{{ num }}</span>
+    {% elif num > current_page.number|add:'-2' and num < current_page.number|add:'2' %} <a href="?page={{ num }}">{{ num
+      }}</a>
+      {% endif %} {% endfor %}
   </div>
 </div>
 
-
-
-
-
-<script>
-
-  async function SortFunction(sortby, pageNum) {
-
-    //Calls the games_api view and grabs the page number we're on. The page it sends back is what we are filtering.
-    $.ajax({
-      url: '/games_api/',
-      type: 'GET',
-      data: {
-        page: pageNum
-      },
-      success: function(response) {
-        var data = response.data;
-        var max_price = document.getElementById("max_price").value;
-        var min_price = document.getElementById("min_price").value;
-        var dev = document.getElementById("set_dev").value;
-        var id = document.getElementById("set_id").value;
-        var title = document.getElementById("set_title").value;
-      
-        //Debug output. Checks the variables. Not meant for the user to see
-        //console.log("PAGE WE'RE ON: ", pageNum);
-        //console.log("GIVEN MAX PRICE: ", max_price);
-        //console.log("GIVEN MIN PRICE: ", min_price);
-        //console.log("GIVEN DEVELOPER: ", dev);
-        //console.log("GIVEN ID: ", id);
-    
-    
-        // Sort the data based on price
-        if (sortby)
-        {
-          data.sort(function(row1, row2) {
-            if (sortby == 'asc') {
-              return row1.price - row2.price;
-            }
-            if (sortby == 'desc') {
-              return row2.price - row1.price;
-            }
-    
-          });      
-        }
-    
-    
-    
-        // Clear the table body
-        var table = document.getElementById("tablegames");
-        table.classList.add('tableorganizer');
-        var tbody = table.getElementsByTagName("tbody")[0];
-        tbody.innerHTML = "";
-    
-        // Rebuild the table with the sorted rows from scratch.
-        for (var i = 0; i < data.length; i++) {
-    
-          let condition = true;
-          var row = document.createElement("tr");
-    
-          var appid = document.createElement("td");
-          appid.innerText = data[i].appid;
-          appid.classList.add('appid');
-          row.appendChild(appid);
-    
-          var name = document.createElement("td");
-          const link = document.createElement('a');
-          link.href = data[i].appid;
-          link.innerText = data[i].name;
-          name.appendChild(link);
-          name.classList.add('name');
-          row.appendChild(name);
-    
-          //Formatting price correctly so that it doesn't look awkward in the table
-          var price = document.createElement("td");
-          if (data[i].price == 0)
-          {
-            price.innerText = "Free";
-          }
-          else
-          {
-            price.textContent = "$" + data[i].price;
-            var check_number = true;
-            var priceLength = price.textContent.length;
-            for (var char of price.textContent)
-            {
-              if (char === '.')
-              {
-                check_number = false;
-                break;
-              }
-            }    
-            if (check_number)
-            {
-              price.textContent = "$" + data[i].price + ".00";
-            }
-            price.classList.add('price');
-          }
-    
-    
-          row.appendChild(price);
-    
-          var developer = document.createElement("td");
-          developer.innerText = data[i].developer;
-          developer.classList.add('developer');
-          row.appendChild(developer);
-    
-    
-          //Apply additional filters. The table is rebuilt every time a user presses a filter. The filters remain active on the html page so these will update with the value.
-          if (max_price)
-          {
-            if (data[i].price >= max_price)
-            {
-              condition = false;
-            }
-          }
-          if (min_price)
-          {
-            if (data[i].price < min_price)
-            {
-              condition = false;
-            }
-          }
-          if (dev)
-          {
-            if (!data[i].developer.includes(dev))
-            {
-              condition = false;
-            }
-          }
-          if (id)
-          {
-            if (data[appid] != appid)
-            {
-              condition = false;
-            }       
-          }
-          if (title)
-          {
-            if (!data[i].name.includes(title))
-            {
-              condition = false;
-            }    
-          }
-    
-          if (condition)
-          {
-            tbody.appendChild(row);
-          }
-    
-        }
-
-      },
-      error: function(error) {
-        console.log(error);
-      }
-    });
-  }
-
-  //This function runs SortFunction upon loading the page. Only way to turn 0 -> Free in price
-  window.onload = function() {
-    var params = new URLSearchParams(window.location.search);
-    var page = params.get('page');
-    SortFunction(undefined, page);
-  };
-
-</script>
 {% endblock %}
