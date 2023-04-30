@@ -1,4 +1,4 @@
-from realDealz.models import Game
+from realDealz.models import Game, Platform
 import http.client
 import json
 import logging as log
@@ -34,7 +34,6 @@ def updateGamePrices():
             soup = BeautifulSoup(game_data.get('about_the_game'), 'html.parser')
             about_data = soup.get_text().strip()
             platform_data = game_data.get('platforms')
-            
 
             if price_data is None: 
                 # Happens when game is free to play
@@ -59,6 +58,16 @@ def updateGamePrices():
                     game.about = about_data
                 else:
                     game.about = 'n/a'
+                if platform_data:
+                    window = platform_data.get('windows')
+                    mac = platform_data.get('mac')
+                    linux = platform_data.get('linux')
+                    platform, _ = Platform.objects.get_or_create()
+                    platform.linux = linux
+                    platform.windows = window
+                    platform.mac = mac
+                    platform.save()
+                    game.platform = platform
                 game.save()
             except Exception as e: 
                 print(e)

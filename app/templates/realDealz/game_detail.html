@@ -12,11 +12,13 @@
     <p><strong>Developer:</strong> {{ Game.developer }}</p>
     <p><strong>Publisher:</strong> {{ Game.publisher }}</p>
     <p><strong>Lowest Price:</strong> $ {{ Game.price }}</p>
-    <p><strong>Platforms:</strong> 
-      {% for platform in Game.platform.all %}
-          {{ platform }},
-      {% endfor %}
-      </p>
+  <p><strong>Platforms:</strong> 
+    <ul>
+    {% for platform in game.platforms.all %}
+      <li>{{ Platform.name }}</li>
+    {% endfor %}
+    </ul>
+  </p>
     <p><strong>Genre:</strong> {{ Game.genre.all|join:", " }}</p>
     <ul>
       <p><strong>Vendors:</strong>

@@ -8,7 +8,14 @@ import realDealz.library as lib
 #Allow multiple platforms
 class Platform(models.Model):
     '''Model representing a game genre'''
-    P = models.CharField(max_length=200, default='PC')
+    windows = models.BooleanField(default=False)
+    mac = models.BooleanField(default=False)
+    linux = models.BooleanField(default=False)
+    
+    ## game = Game.objects.get(appid=1234)
+    ## platform = game.platform  # Get the associated platform object
+    ##linux = platform.linux  # Get the value of the linux field will do something 
+    ##like this but i need to make sure that im getting the right info;
 
     def __str__(self):
         '''String for representing the Model object.'''
@@ -61,7 +68,7 @@ class Game(models.Model):
     ##platform = ArrayField(models.CharField(max_length=40,default = 'pc'))
 
     #Field can include multiple MultiFields. This allows multiple platforms and genres per game entry
-    platform = models.ManyToManyField(Platform, help_text='Select Game platforms', default="PC")
+    platform = models.ManyToManyField(Platform)
     genre = models.ManyToManyField(Genre, help_text='Select Game genres', default="-1")
 
 
