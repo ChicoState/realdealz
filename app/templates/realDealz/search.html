@@ -3,6 +3,7 @@
 <html>
   <head>
     <meta charset="UTF-8" />
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
     <link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap-theme.min.css" rel="stylesheet" />
     <link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css" rel="stylesheet" />   
@@ -36,6 +37,7 @@
         <li><a href="{% url 'catalog' %}">Catalog</a></li>
         <li><a href="{% url 'about' %}">About</a></li>
       </ul>
+      {% comment %}
       <div class="container">
         <div class="row">
           <div class="col-xs-8 col-xs-offset-2">
@@ -68,6 +70,7 @@
           </div>
         </div>
       </div>
+    {% endcomment %}
     </nav>
     {% comment %}
     <div id="mySidenav" class="sidenav">
