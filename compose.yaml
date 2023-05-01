@@ -2,7 +2,7 @@ services:
   web: 
     build:
       context: app
-      target: builder
+      target: dev-env
     ports: 
       - '8000:8000'
     # This Is for development only so you dont have to rebuild the image every time you make a change

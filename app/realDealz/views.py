@@ -8,7 +8,11 @@ from realDealz.library import Library
 from django.core.paginator import Paginator
 from django.core import serializers
 from realDealz.updateData import updateGamePrices
+from realDealz.getWishlist import *
+from allauth import socialaccount
+import logging as log
 import json
+
 
 def home(request):
     l = Library()
@@ -32,6 +36,14 @@ def home(request):
     return render(request, "home.html", context=context)
 
 def profile(request):
+    """This handles the users profile page, also loads in the wishlist data from steam"""
+    if request.user.is_authenticated:
+        _user = socialaccount.models.SocialAccount.objects.get(user=request.user)
+        wishlist = getWishlistFromID(_user.uid)
+        for app_id, app_data in wishlist.items():
+            game_data = getGameData(app_id)
+            # print(game_data[app_id]["data"])
+
     return render(request, "profile.html")
 
 

@@ -48,7 +48,7 @@ def updateGamePrices():
                 if price_data.get('final_formatted') is not None:
                     price = price_data['final_formatted'].split("$")[1].split(" ")[0]
 
-                    print(f"{appid}: {price_data['final_formatted']} ... {price}")
+                    # log.debug(f"{appid}: {price_data['final_formatted']} ... {price}")
                     game.price = price
                     game.discount = price_data.get('discount_percent', None)
                 else:
@@ -67,3 +67,4 @@ def updateGamePrices():
             log.error("update game price response error: (Non 200)")
 
         conn.close()
+    log.info("Game Prices Finished Updated")
