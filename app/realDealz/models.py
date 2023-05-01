@@ -2,6 +2,10 @@ from django.db import models
 from django.urls import reverse
 import logging as log
 import realDealz.library as lib
+from realDealz.library import Library
+
+# create an instance of the Library class
+my_library = Library()
 
 # Model attributes are declared here
 
@@ -36,8 +40,6 @@ class Seller(models.Model):
         return str(self.sources)
         
 
-
-
 class Game(models.Model):
     '''Generic Game model'''
 
@@ -63,7 +65,7 @@ class Game(models.Model):
     genre = models.ManyToManyField(Genre, help_text='Select Game genres', default="-1")
 
 
-
+    
     @classmethod
     def initial_load(self):
         '''Load the initial library from steamspy'''
@@ -102,7 +104,11 @@ class Game(models.Model):
     def get_absolute_url(self):
         '''Returns the URL to access a detail record for this Game.'''
         return reverse('game-detail', args=[str(self.appid)])
-
+    
+    @property
+    def image_url(self):
+        return my_library.get_game_image(self.appid)
+    
 if __name__ == "__main__":
-    print("Hello World")
-    # Game().initial_load
+    #print("Hello World")
+     Game().initial_load
