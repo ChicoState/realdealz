@@ -22,13 +22,16 @@ from django.conf import settings
 
 urlpatterns = [
     path('', home.home, name='home'),
+    path('control/', home.home, name='home'),
     path('catalog/', home.game_list, name='catalog'),
     path('about/', home.about, name='about'),
     path('contact/', home.contact, name='contact'),
-    path('search/', home.game_search, name='game_search'),
     path('admin/', admin.site.urls),
     path('catalog/<int:game_id>', home.game_detail, name='game-detail'), 
     path('accounts/', include('allauth.urls')),
+    path('accounts/profile/', home.profile, name='profile'),
+    path('games_api/', home.games_api, name='games_api'),
+    # path('admin/', admin.site.urls),
 ]
 
 urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

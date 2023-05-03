@@ -3,6 +3,7 @@ from functools import wraps
 from datetime import datetime as dt
 import json
 import urllib3
+import requests
 from environs import Env
 import os
 import requests
@@ -17,6 +18,7 @@ def val_auth(func):
         if "url" in kwargs:
             url = kwargs["url"]
             if "igdb" in url:
+                log.info("Validating igdb Auth")
                 if dt.now().timestamp() - self.auth["request_time"] > self.auth["expires_in"]:
                     self.auth = self.get_auth_token()
         return func(self, *args, **kwargs)
@@ -35,7 +37,7 @@ class Library:
         self.base = {
             "steamspy": "steamspy.com/api.php?request=",
             "igdb": "https://api.igdb.com/v4/",
-            "steam": "https://store.steampowered.com/api/",
+            "steam": "https://store.steampowered.com/",
         }
         self._id = None
         self._secret = None
@@ -43,23 +45,26 @@ class Library:
         if load_credentials:
             self._load_cred()
 
-        self.a_header = {"Client-ID": self._id}
+        self.twitch_auth = {"Client-ID": self._id}
 
         if on_init_authorize:
             self.auth = self.get_auth_token()
-            self.a_header['Authorization'] = self.auth.pop('Authorization', None)
+            self.twitch_auth['Authorization'] = self.auth.pop('Authorization', None)
     
     def _load_cred(self):
         '''Loads the credentials from .env file if it exists'''
-        if not os.path.exists('.env'):# if .env file exists  use it to load the credentials
-            log.error("No .env file found")
-            return
+        # if not os.path.exists('.env'):# if .env file exists  use it to load the credentials
+        #     log.error("No .env file found")
+        #     raise Exception("No .env file found")
+            
         env = Env()
         env.read_env()
-        self._secret = env.str("Client_secret")
-        self._id = env.str("Client_id")
+        self._secret = env.str("TWITCH_CLIENT_SECRET")
+        self._id = env.str("TWITCH_CLIENT_ID")
+
         if not self._secret or not self._id:
             log.error("Client_secret or Client_id is not defined")
+            raise Exception("Client_secret or Client_id is not defined")
 
 
     def get_auth_token(self):
@@ -99,7 +104,7 @@ class Library:
         return self.m_get(_url, None)
 
 
-    def m_get(self, url : str, p_headers : dict):
+    def m_get(self, url : str, p_headers : dict, _decode : bool = True):
         '''Generic method for getting with twitch authentication'''
         http = urllib3.PoolManager()
         _headers = {
@@ -110,28 +115,26 @@ class Library:
 
         response = http.request('GET', url, headers=_headers)
         data = response.data
-        if isinstance(data, bytes):
-            data = data.decode('utf-8')
-        result = json.loads(data)
 
-        #result = json.loads(http.request(
-         #   'GET',
-         #   url,
-         #   headers=_headers
-        #).data)
-        return result
+        if _decode and isinstance(data, bytes):
+            data = data.decode('utf-8')
+            result = json.loads(data)
+            return result
+        
+        return data
 
 
     @val_auth
-    def m_post(self, url : str, p_fields : dict , p_headers : dict):
+    def m_post(self, url : str, p_fields : dict , p_headers : dict = None):
         '''Generic method for posting with twitch authentication'''
         http = urllib3.PoolManager()
         _headers = {
-            "Content-Type": "application/json"
+            "Accept": "application/json"
         }
-        _headers.update(self.a_header)
+        _headers.update(self.twitch_auth)
         if p_headers is not None:
             _headers.update(p_headers)
+
         result = json.loads(http.request(
             'POST',
             url,
@@ -161,3 +164,18 @@ if __name__ == "__main__":
     app_id = 130 #Testing Counter-Strike
     image_url = library.get_game_image(app_id)
     print(f"Header image for app ID {app_id}: {image_url}")
+
+    @val_auth
+    def get_images(self):
+        '''Method to get images from imdb'''
+        _url = self.base['igdb'] + "games/"
+        payload = "fields screenshots.*;\nwhere id = 1942;"
+
+        r = requests.post(_url, data=payload, headers=self.twitch_auth)
+
+        a = '//images.igdb.com/igdb/image/upload/t_thumb/usxccsncekxg0wd1v6ee.jpg'
+        b = self.m_get(a, self.twitch_auth, False)
+
+        with open("amazing_image.jpg", "wb") as f:
+            f.write(b)
+        return r.json()

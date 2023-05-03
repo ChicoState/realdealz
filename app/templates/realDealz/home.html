@@ -13,11 +13,15 @@
             {% csrf_token %}
             <button type="submit" name="load" class="btn btn-primary">Initial_load</button>
             <button type="submit" name="reset" class="btn btn-scondary">Reset</button>
-    </form>
+        </form>
     </div>
 
     <div> 
-        <button type="submit" name="steam-login"> <img src="{% static 'images/sits_01.png' %}" alt="arrow"/> </button>
+        <form method="post" >
+            {% csrf_token %}
+            <button type="submit" name="steam-login"> <img src="{% static 'images/sits_01.png' %}" alt="arrow"/> </button>
+        </form>
+
     </div> 
 
     
