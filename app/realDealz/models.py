@@ -47,8 +47,9 @@ class Game(models.Model):
 
     appid = models.IntegerField(primary_key=True, help_text='Unique ID for this particular game')
     name = models.CharField(max_length=100, default="-1", help_text='Game title')
+    about =  models.CharField(max_length=100, default="IDK", help_text='About game')
     price = models.FloatField(default="-1")
-    link = models.URLField(max_length = 200, default='https://www.google.com/')
+    link = models.CharField(max_length = 200, default='https://www.google.com')
     discount = models.CharField(max_length=20, default="-1")
     developer = models.CharField(max_length=100, default="Unknown")
     publisher = models.CharField(max_length=100, default="Unknown")
@@ -60,7 +61,7 @@ class Game(models.Model):
 
     #Field can include multiple MultiFields. This allows multiple platforms and genres per game entry
     platform = models.ManyToManyField(Platform, help_text='Select Game platforms', default="PC")
-    genre = models.ManyToManyField(Genre, help_text='Select Game genres', default="-1")
+    genre = models.ManyToManyField(Genre, help_text='Select Game genres', default="Unknown")
 
 
 

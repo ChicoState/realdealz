@@ -8,6 +8,7 @@ from realDealz.library import Library
 from django.core.paginator import Paginator
 from django.core import serializers
 from realDealz.updateData import updateGamePrices
+import requests
 
 
 def home(request):

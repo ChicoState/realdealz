@@ -19,16 +19,14 @@
       </p>
     <p><strong>Genre:</strong> {{ Game.genre.all|join:", " }}</p>
     <ul>
-      <p><strong>Vendors:</strong>
-      {% for link in Game.vendors.all %}
-        <li><a href="{{ link }}">{{ link }}</a></li>
-      {% endfor %}
+      <p><strong>Redirect game's website(if any, not steam): <a href="{{Game.link}}">{{Game.name}}</a></strong>
     </ul>
     </div>    
   </div> 
-  <div class ="box">
-    <p> about </p>
-    {{ Game.about }} 
+  <div class ="remove_highlight">
+    <p> About </p>
+    <p>{{ Game.about }} </p>
+
   </div>
   
 {% endblock %}
