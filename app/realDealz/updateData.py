@@ -34,7 +34,6 @@ def updateGamePrices():
             soup = BeautifulSoup(game_data.get('detailed_description'), 'html.parser')
             about_data = soup.get_text().strip()
             platform_data = game_data.get('platforms')
-            link_data = game_data.get('website')
             genre_data = game_data.get('genres')
 
             if price_data is None: 
@@ -61,13 +60,6 @@ def updateGamePrices():
                 print(e)
                 print(price_data)
             try:
-                if link_data:
-                    game.link = link_data
-                game.save()
-            except Exception as b:
-                print(b)
-                print(link_data)
-            try:
                 if about_data:
                     game.about = about_data
                 else:
@@ -77,14 +69,23 @@ def updateGamePrices():
                 print(a)
                 print(about_data)
             try:
-                if genre_data:
+                if genre_data is not None:
                     game.genre = genre_data
                 else:
-                    game.genre = "unknown"
+                    game.genre = "its a game, idk what else to tell ya"
                 game.save()
             except Exception as g:
                 print(g)
                 print(genre_data)
+            try:
+                if platform_data:
+                    game.platform = platform_data
+                else:
+                    game.platform = "unknown"
+                game.save()
+            except Exception as p:
+                print(p)
+                print(platform_data)
                 
         else: 
             log.error("update game price response error: (Non 200)")

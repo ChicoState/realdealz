@@ -19,10 +19,11 @@
       </p>
     <p><strong>Genre:</strong> {{ Game.genre.all|join:", " }}</p>
     <ul>
-      <p><strong>Redirect game's website(if any, not steam): <a href="{{Game.link}}">{{Game.name}}</a></strong>
+      <p><strong>Steam Redirect: <a href="https://store.steampowered.com/app/{{Game.appid}}/{{Game.name}}/">{{Game.name}}</a></strong>
     </ul>
     </div>    
   </div> 
+  {{game.link}}
   <div class ="remove_highlight">
     <p> About </p>
     <p>{{ Game.about }} </p>
