@@ -11,6 +11,11 @@ RUN apk add --no-cache \
     zlib-dev libffi-dev
 
 RUN pip install --upgrade pip
+
+RUN apk add --no-cache nodejs npm
+COPY package*.json ./
+RUN npm install
+
 # Python Dependencies
 COPY requirements.txt /app
 COPY dev_tools.txt /app
@@ -33,4 +38,4 @@ adduser -S --shell /bin/bash --ingroup docker vscode
 EOF
 # install Docker tools (cli, buildx, compose)
 COPY --from=gloursdocker/docker / /
-CMD ["manage.py", "runserver", "0.0.0.0:8000"]
+CMD ["npm", "manage.py", "runserver", "0.0.0.0:8000"]
