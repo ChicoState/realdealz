@@ -2,6 +2,7 @@
 
 <link rel="stylesheet" href="{% static 'css/catalog.css' %}" />
 <script src="{% static 'js/catalog.js' %}"></script>
+<script src="{% static 'js/load.js' %}"></script>
 
 
 <h1>Deals List</h1>
@@ -115,11 +116,13 @@
 
 <div class="centertext">
   <div class="pagination">
-    {% for num in current_page.paginator.page_range %} {% if current_page.number == num %}
-    <span>{{ num }}</span>
-    {% elif num > current_page.number|add:'-2' and num < current_page.number|add:'2' %} <a href="?page={{ num }}">{{ num
-      }}</a>
-      {% endif %} {% endfor %}
+    {% for num in current_page.paginator.page_range %}
+        {% if current_page.number == num %}
+            <span>{{ num }}</span>
+        {% elif num > current_page.number|add:'-2' and num < current_page.number|add:'2' %}
+            <a href="?page={{ num }}">{{ num }}</a>
+        {% endif %}
+    {% endfor %}
   </div>
 </div>
 
