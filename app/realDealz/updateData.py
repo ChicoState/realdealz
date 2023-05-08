@@ -34,6 +34,8 @@ def updateGamePrices():
             soup = BeautifulSoup(game_data.get('detailed_description'), 'html.parser')
             about_data = soup.get_text().strip()
             platform_data = game_data.get('platforms')
+            
+        
             genre_data = game_data.get('genres')
 
             if price_data is None: 
