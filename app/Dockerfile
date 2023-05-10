@@ -24,11 +24,6 @@ RUN npm install eslint eslint-plugin-complexity --save-dev
 # Run this command on terminal to generate: npx jest
 
 
-# Generates a UML Diagram
-RUN apk add --no-cache graphviz graphviz-dev gcc musl-dev
-ENV GRAPHVIZ_DOT=/usr/bin/dot
-# Run this command on terminal to generate: python manage.py graph_models -a -o my_models.svg
-
 # Python Dependencies
 COPY requirements.txt /app
 COPY dev_tools.txt /app
