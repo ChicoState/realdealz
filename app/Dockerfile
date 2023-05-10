@@ -17,10 +17,10 @@ RUN pip install --upgrade pip
 RUN apk add --no-cache nodejs npm
 COPY package*.json ./
 RUN npm install
-RUN npm install jest --save-dev
-RUN npm install jsdom
-RUN npm install jquery
-RUN npm install eslint eslint-plugin-complexity --save-dev
+# RUN npm install jest --save-dev
+# RUN npm install jsdom
+# RUN npm install jquery
+# RUN npm install eslint eslint-plugin-complexity --save-dev
 # Run this command on terminal to generate: npx jest
 
 # Python Dependencies
