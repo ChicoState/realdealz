@@ -61,7 +61,7 @@ class Game(models.Model):
 
     #Field can include multiple MultiFields. This allows multiple platforms and genres per game entry
     platform = models.ManyToManyField(Platform, help_text='Select Game platforms', default="PC")
-    genre = models.ManyToManyField(Genre, help_text='Select Game genres', default="Unknown")
+    genre = models.CharField(max_length=100, default="IDK", help_text='genre')
 
 
 

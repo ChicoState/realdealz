@@ -3,6 +3,7 @@ import http.client
 import json
 import logging as log
 from bs4 import BeautifulSoup
+import re
 
 
 def updateGamePrices(): 
@@ -33,11 +34,16 @@ def updateGamePrices():
             price_data = game_data.get('price_overview')
             soup = BeautifulSoup(game_data.get('detailed_description'), 'html.parser')
             about_data = soup.get_text().strip()
+    
             platform_data = game_data.get('platforms')
             
-        
-            genre_data = game_data.get('genres')
-
+            temp = game_data.get('genres')
+            
+            temp2= re.sub("[^a-zA-Z]",' ', str(temp))
+            
+            temp3  = temp2.replace('id', '')
+            genre_data = temp3.replace('description', '')
+            
             if price_data is None: 
                 # Happens when game is free to play
                 continue
@@ -80,14 +86,15 @@ def updateGamePrices():
                 print(g)
                 print(genre_data)
             try:
-                if platform_data:
-                    game.platform = platform_data
+                if platform_data.windows:
+                    game.platform = platform_data.windows
                 else:
                     game.platform = "unknown"
                 game.save()
             except Exception as p:
                 print(p)
                 print(platform_data)
+            
                 
         else: 
             log.error("update game price response error: (Non 200)")

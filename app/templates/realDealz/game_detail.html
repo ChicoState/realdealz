@@ -17,7 +17,8 @@
           {{ platform }},
       {% endfor %}
       </p>
-    <p><strong>Genre:</strong> {{ Game.genre.all|join:", " }}</p>
+    <p><strong>Genre:</strong> {{ Game.genre}}</p>
+
     <ul>
       <p><strong>Steam Redirect: <a href="https://store.steampowered.com/app/{{Game.appid}}/{{Game.name}}/">{{Game.name}}</a></strong>
     </ul>
