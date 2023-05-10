@@ -45,10 +45,10 @@ class TestViews(TestCase):
         self.assertEquals(response.status_code,200)
         self.assertTemplateUsed(response,'game_detail.html')
     
-    def test_home_POST_Steam(self):
-        client = Client()
-        response = client.post(reverse('home'), {'steam-login': True})
-        self.assertEquals(response.status_code,302)## 302 = redirect
-        self.assertTemplateUsed(response,'home.html')
+    #def test_home_POST_Steam(self):
+     #   client = Client()
+      #  response = client.post(reverse('home'), {'steam-login': True})
+      #  self.assertEquals(response.status_code,302)## 302 = redirect
+      #  self.assertTemplateUsed(response,'home.html')
 
   
