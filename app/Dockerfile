@@ -29,11 +29,11 @@ COPY dev_tools.txt /app
 RUN pip3 install -r requirements.txt --no-cache-dir
 
 # Generates a UML Diagram
-RUN pip install django-extensions
-RUN apk add --no-cache graphviz graphviz-dev gcc musl-dev
-ENV GRAPHVIZ_DOT=/usr/bin/dot
-RUN pip install pydotplus
-RUN pip install pygraphviz
+#RUN pip install django-extensions
+#RUN apk add --no-cache graphviz graphviz-dev gcc musl-dev
+#ENV GRAPHVIZ_DOT=/usr/bin/dot
+#RUN pip install pydotplus
+#RUN pip install pygraphviz
 # Run this command on terminal to generate: python manage.py graph_models -a -o my_models.svg
 
 
