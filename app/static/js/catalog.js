@@ -51,18 +51,13 @@ async function SortFunction(sortby, pageNum) {
   const response = await RequestTable(pageNum);
   var data = response.data;
   var filters = ReturnResponse();
-
-  //Debug output. Checks the variables. Not meant for the user to see
-  //console.log("PAGE WE'RE ON: ", pageNum);
-  //console.log("GIVEN MAX PRICE: ", filters[0]);
-  //console.log("GIVEN MIN PRICE: ", filters[1]);
-  //console.log("GIVEN DEVELOPER: ", filters[2]);
-  //console.log("GIVEN ID: ", filters[3]);
+  BuildTable(sortby, filters, data);
+}
 
 
-  // Sort the data based on price
+function BuildTable(sortby, filters, data) {
+
   SortTable(data, sortby);
-
 
   // Clear the table body
   var table = document.getElementById("tablegames");
@@ -84,10 +79,7 @@ async function SortFunction(sortby, pageNum) {
 
     //Add the name value and add the appropriate hyperlink to it
     var name = document.createElement("td");
-    const link = document.createElement('a');
-    link.href = data[i].appid;
-    link.innerText = data[i].name;
-    name.appendChild(link);
+    name.innerText = data[i].name;
     name.classList.add('name');
     row.appendChild(name);
 
@@ -111,7 +103,6 @@ async function SortFunction(sortby, pageNum) {
       price.classList.add('price');
     }
 
-
     row.appendChild(price);
 
     //Add the developer value
@@ -119,7 +110,6 @@ async function SortFunction(sortby, pageNum) {
     developer.innerText = data[i].developer;
     developer.classList.add('developer');
     row.appendChild(developer);
-
 
     //Apply additional filters. The table is rebuilt every time a user presses a filter. The filters remain active on the html page so these will update with the value.
     if (filters[0]) {
@@ -148,6 +138,7 @@ async function SortFunction(sortby, pageNum) {
       }
     }
 
+  
     if (condition) {
       tbody.appendChild(row);
     }
@@ -160,6 +151,7 @@ module.exports = {
   ReturnResponse: ReturnResponse,
   SortTable: SortTable,
   SortFunction: SortFunction,
-  RequestTable: RequestTable
+  RequestTable: RequestTable,
+  BuildTable: BuildTable
 };
 

@@ -20,8 +20,8 @@ RUN npm install
 RUN npm install jest --save-dev
 RUN npm install jsdom
 RUN npm install jquery
-RUN npm install eslint eslint-plugin-complexity --save-dev
 # Run this command on terminal to generate: npx jest
+# Run this command on terminal to generate test coverage report: npx jest --coverage
 
 
 # Python Dependencies

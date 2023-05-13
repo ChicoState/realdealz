@@ -14,113 +14,12 @@ const $ = require('jquery');
 
 
 
-//THIS FUNCTION IS A MODIFIED SORTFUNCTION() FOUND IN catalog.js
-//Changes are as followed:
-//RequestTable() is removed. The response variable is the return value of RequestTable()
-//The pageNum parameter is needed for RequestTable(). There is no need to include it if we remove RequestTable()
-//The hyperlink added to the name is removed. It makes getting the name of the string undefined for Jest and isn't really something that needs to be tested since it goes to another html page.
-//Debug output is added to help provide information on what is going on within the function
-//These are done to allow testing to be more easily done without having to complicate the functions more than necessary.
-//IMPORTANT: The testing enviroment for some reason returns a table with length + 1. When parsing the table start at table[1] and not 0. This does not happen in the main function.
+//THIS FUNCTION IS A MODIFIED SORTFUNCTION() FOUND IN catalog.js to allow easier testing due tot the await portion used in SortFunction
 async function SortFunctionTest(sortby, response) {
 
   data = response.data;
   var filters = Catalog.ReturnResponse();
-  Catalog.SortTable(data, sortby);
-
-
-  // Clear the table body
-  var table = document.getElementById("tablegames");
-  table.classList.add('tableorganizer');
-  var tbody = table.getElementsByTagName("tbody")[0];
-  tbody.innerHTML = "";
-
-  // Rebuild the table with the sorted rows from scratch.
-  for (var i = 0; i < data.length; i++) {
-
-    let condition = true;
-    var row = document.createElement("tr");
-
-    //Add the appid value in the table
-    var appid = document.createElement("td");
-    appid.innerText = data[i].appid;
-    appid.classList.add('appid');
-    row.appendChild(appid);
-
-    //Add the name value and add the appropriate hyperlink to it
-    var name = document.createElement("td");
-    name.innerText = data[i].name;
-    name.classList.add('name');
-    row.appendChild(name);
-
-    //Formatting price correctly so that it doesn't look awkward in the table
-    var price = document.createElement("td");
-    if (data[i].price == 0) {
-      price.innerText = "Free";
-    }
-    else {
-      price.innerText = "$" + data[i].price;
-      var check_number = true;
-      for (var char of price.innerText) {
-        if (char === '.') {
-          check_number = false;
-          break;
-        }
-      }
-      if (check_number) {
-        price.innerText = "$" + data[i].price + ".00";
-      }
-      price.classList.add('price');
-    }
-
-    row.appendChild(price);
-
-    //Add the developer value
-    var developer = document.createElement("td");
-    developer.innerText = data[i].developer;
-    developer.classList.add('developer');
-    row.appendChild(developer);
-
-    //Apply additional filters. The table is rebuilt every time a user presses a filter. The filters remain active on the html page so these will update with the value.
-    if (filters[0]) {
-      if (data[i].price > Number(filters[0])) {
-        //console.log(data[i].appid, "Condition is false cause of higher than max price")
-        condition = false;
-      }
-    }
-    if (filters[1]) { 
-      if (data[i].price < Number(filters[1])) {
-        //console.log(data[i].appid, "Condition is false cause of lower than min price")
-        condition = false;
-      }
-    }
-    if (filters[2]) {
-      if (!data[i].developer.includes(filters[2])) {
-        //console.log(data[i].appid, "Condition is false cause of developers")
-        condition = false;
-      }
-    }
-    if (filters[3]) {
-      if (!data[i].appid.includes(filters[3])) {
-        //console.log(data[i].appid, "Condition is false cause of ID")
-        condition = false;
-      }
-    }
-    if (filters[4]) {
-      if (!data[i].name.includes(filters[4])) {
-        //console.log(data[i].appid, "Condition is false cause of name")
-        condition = false;
-      }
-    }
-
-  
-    if (condition) {
-      //console.log("Appending to table")
-      tbody.appendChild(row);
-    }
-
-  }
-
+  Catalog.BuildTable(sortby, filters, data);
 }
 
 
@@ -155,7 +54,8 @@ jest.mock('jquery', () => ({
       data: [
         { appid: "1", name: 'Game 1', price: '100', developer: 'A Games' },
         { appid: "2", name: 'Game 2', price: '200', developer: 'B Games' },
-        { appid: "3", name: 'Game 3', price: '150', developer: 'C Games' }
+        { appid: "3", name: 'Game 3', price: '150.00', developer: 'C Games' },
+        { appid: "4", name: 'Game 4', price: '0.0', developer: 'D Games' },
       ]
     });
   })
@@ -236,7 +136,7 @@ test('Test_Response() returns the correct length of data', () => {
   return Test_Response(1).then(response => {
 
     data = response.data;
-    expect(data.length).toBe(3);
+    expect(data.length).toBe(4);
   });
 });
 
@@ -254,8 +154,13 @@ test('Test_Response() returns the correct data', () => {
     expect(data[1].developer).toBe("B Games");
     expect(data[2].appid).toBe("3");
     expect(data[2].name).toBe("Game 3");
-    expect(data[2].price).toBe("150");
+    expect(data[2].price).toBe("150.00");
     expect(data[2].developer).toBe("C Games");
+    expect(data[3].appid).toBe("4");
+    expect(data[3].name).toBe("Game 4");
+    expect(data[3].price).toBe("0.0");
+    expect(data[3].developer).toBe("D Games");
+  
   });
 });
 
@@ -266,8 +171,9 @@ test('Sort Ascending Order Price SortTable()', () => {
     data = response.data;
     Catalog.SortTable(data, 'desc');
     expect(data[0].price).toBe("200");
-    expect(data[1].price).toBe("150");
+    expect(data[1].price).toBe("150.00");
     expect(data[2].price).toBe("100");
+    expect(data[3].price).toBe("0.0");
   });
 });
 
@@ -276,9 +182,10 @@ test('Sort Descending Order Price SortTable()', () => {
 
     data = response.data;
     Catalog.SortTable(data, 'asc');
-    expect(data[0].price).toBe("100");
-    expect(data[1].price).toBe("150");
-    expect(data[2].price).toBe("200");
+    expect(data[0].price).toBe("0.0");
+    expect(data[1].price).toBe("100");
+    expect(data[2].price).toBe("150.00");
+    expect(data[3].price).toBe("200");
   });
 });
 
@@ -349,6 +256,12 @@ describe('Validates SortFunction()', () => {
       expect(cells[1].innerText).toBe("Game 3");
       expect(cells[2].innerText).toBe("$150.00");
       expect(cells[3].innerText).toBe("C Games");
+
+      cells = rows[4].getElementsByTagName('td');
+      expect(cells[0].innerText).toBe("4");
+      expect(cells[1].innerText).toBe("Game 4");
+      expect(cells[2].innerText).toBe("Free");
+      expect(cells[3].innerText).toBe("D Games");
     });
   });
 });
@@ -399,20 +312,25 @@ describe('Ascending Order SortFunction()', () => {
       //Tests the content of the table and make sure they are correct
       const rows = tablegames.getElementsByTagName('tr');
 
-
       var cells = rows[1].getElementsByTagName('td');
+      expect(cells[0].innerText).toBe("4");
+      expect(cells[1].innerText).toBe("Game 4");
+      expect(cells[2].innerText).toBe("Free");
+      expect(cells[3].innerText).toBe("D Games");
+
+      cells = rows[2].getElementsByTagName('td');
       expect(cells[0].innerText).toBe("1");
       expect(cells[1].innerText).toBe("Game 1");
       expect(cells[2].innerText).toBe("$100.00");
       expect(cells[3].innerText).toBe("A Games");
 
-      cells = rows[2].getElementsByTagName('td');
+      cells = rows[3].getElementsByTagName('td');
       expect(cells[0].innerText).toBe("3");
       expect(cells[1].innerText).toBe("Game 3");
       expect(cells[2].innerText).toBe("$150.00");
       expect(cells[3].innerText).toBe("C Games");
 
-      cells = rows[3].getElementsByTagName('td');
+      cells = rows[4].getElementsByTagName('td');
       expect(cells[0].innerText).toBe("2");
       expect(cells[1].innerText).toBe("Game 2");
       expect(cells[2].innerText).toBe("$200.00");
@@ -484,6 +402,12 @@ describe('Descending Order SortFunction()', () => {
       expect(cells[1].innerText).toBe("Game 1");
       expect(cells[2].innerText).toBe("$100.00");
       expect(cells[3].innerText).toBe("A Games");
+
+      cells = rows[4].getElementsByTagName('td');
+      expect(cells[0].innerText).toBe("4");
+      expect(cells[1].innerText).toBe("Game 4");
+      expect(cells[2].innerText).toBe("Free");
+      expect(cells[3].innerText).toBe("D Games");
 
     });
   });
@@ -806,7 +730,7 @@ describe('Changing Values During Execution SortFunction()', () => {
 
       //Tests the content of the table and make sure they are correct
       rows = tablegames.getElementsByTagName('tr');
-      expect(rows.length).toBe(4);
+      expect(rows.length).toBe(5);
 
 
       const price1 = dom.window.document.getElementById('min_price');
@@ -871,11 +795,11 @@ describe('Final Test SortFunction()', () => {
       const tablegames = document.getElementById('tablegames');
       SortFunctionTest('', response);
       rows = tablegames.getElementsByTagName('tr');
-      expect(rows.length).toBe(4);
+      expect(rows.length).toBe(5);
     
       SortFunctionTest('asc', response);
       rows = tablegames.getElementsByTagName('tr');
-      expect(rows.length).toBe(4);
+      expect(rows.length).toBe(5);
 
       const price1 = dom.window.document.getElementById('min_price');
       price1.setAttribute('value', '100');
@@ -903,23 +827,29 @@ describe('Final Test SortFunction()', () => {
       price2.setAttribute('value', '');
       SortFunctionTest('asc', response);
       rows = tablegames.getElementsByTagName('tr');
-      expect(rows.length).toBe(4);
+      expect(rows.length).toBe(5);
 
       rows = tablegames.getElementsByTagName('tr');
 
       var cells = rows[1].getElementsByTagName('td');
+      expect(cells[0].innerText).toBe("4");
+      expect(cells[1].innerText).toBe("Game 4");
+      expect(cells[2].innerText).toBe("Free");
+      expect(cells[3].innerText).toBe("D Games");
+
+      cells = rows[2].getElementsByTagName('td');
       expect(cells[0].innerText).toBe("1");
       expect(cells[1].innerText).toBe("Game 1");
       expect(cells[2].innerText).toBe("$100.00");
       expect(cells[3].innerText).toBe("A Games");
 
-      cells = rows[2].getElementsByTagName('td');
+      cells = rows[3].getElementsByTagName('td');
       expect(cells[0].innerText).toBe("3");
       expect(cells[1].innerText).toBe("Game 3");
       expect(cells[2].innerText).toBe("$150.00");
       expect(cells[3].innerText).toBe("C Games");
 
-      cells = rows[3].getElementsByTagName('td');
+      cells = rows[4].getElementsByTagName('td');
       expect(cells[0].innerText).toBe("2");
       expect(cells[1].innerText).toBe("Game 2");
       expect(cells[2].innerText).toBe("$200.00");
