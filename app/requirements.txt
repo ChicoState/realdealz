@@ -5,3 +5,4 @@ setuptools==67.4.0
 Pillow==8.4.0
 django-allauth==0.54.0
 beautifulsoup4==4.12.2
+coverage==7.2.5
