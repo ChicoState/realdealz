@@ -6,6 +6,7 @@ import urllib3
 import requests
 from environs import Env
 import os
+import requests
 
 log.basicConfig(level=log.INFO)
 
@@ -142,6 +143,27 @@ class Library:
         ).data)
         return result
     
+    def get_game_image(self, app_id):
+        '''Get the header image of the specified game using the Steam API'''
+        url = f"{self.base['steam']}appdetails?appids={app_id}"
+        response = requests.get(url)
+        data = response.json()
+        if data[str(app_id)]['success']:
+            return data[str(app_id)]['data']['header_image']
+        else:
+            return None
+    
+# This is for testing
+# It will only run if this file is run directly
+if __name__ == "__main__":
+    library = Library()
+    # print(library.search_all())
+    #print(library.get_top_100())
+    
+    #testing game images
+    app_id = 130 #Testing Counter-Strike
+    image_url = library.get_game_image(app_id)
+    print(f"Header image for app ID {app_id}: {image_url}")
 
     @val_auth
     def get_images(self):
@@ -157,25 +179,3 @@ class Library:
         with open("amazing_image.jpg", "wb") as f:
             f.write(b)
         return r.json()
-
-#!Fixme this doesn't work yet but it will soon
-    def get_wishlist(self, steam_id):
-        '''Get the wishlist of a steam user'''
-        _url = self.base['steam'] + f"wishlist/{steam_id}/wishlistdata/"
-        _headers = {"Accept": "application/json"}
-        req = requests.get(_url, headers=_headers)
-
-        return dir(req)
-
-def test_img():
-    l = Library(True, True)
-    # print(l.search_all())
-    print(l.get_wishlist("76561198180301021"))
-    # print(l.get_images())
-
-# This is for testing
-# It will only run if this file is run directly
-if __name__ == "__main__":
-    test_img()
-
-
