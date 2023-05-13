@@ -3,6 +3,7 @@ import http.client
 import json
 import logging as log
 from bs4 import BeautifulSoup
+import re
 
 
 def updateGamePrices(): 
@@ -31,11 +32,18 @@ def updateGamePrices():
             game_data = response_json[str(appid)]['data']
 
             price_data = game_data.get('price_overview')
-            soup = BeautifulSoup(game_data.get('about_the_game'), 'html.parser')
+            soup = BeautifulSoup(game_data.get('detailed_description'), 'html.parser')
             about_data = soup.get_text().strip()
+    
             platform_data = game_data.get('platforms')
             
-
+            temp = game_data.get('genres')
+            
+            temp2= re.sub("[^a-zA-Z]",' ', str(temp))
+            
+            temp3  = temp2.replace('id', '')
+            genre_data = temp3.replace('description', '')
+            
             if price_data is None: 
                 # Happens when game is free to play
                 continue
@@ -53,16 +61,41 @@ def updateGamePrices():
                     game.discount = price_data.get('discount_percent', None)
                 else:
                     game.price = 0
-                    game.discount = "N/A"
-             
-                if about_data:
-                    game.about = about_data
-                else:
-                    game.about = 'n/a'
+                    game.discount = "N/A"    
+
                 game.save()
             except Exception as e: 
                 print(e)
                 print(price_data)
+            try:
+                if about_data:
+                    game.about = about_data
+                else:
+                    game.about = "loaded nothing, probably empty"
+                game.save()
+            except Exception as a:
+                print(a)
+                print(about_data)
+            try:
+                if genre_data is not None:
+                    game.genre = genre_data
+                else:
+                    game.genre = "its a game, idk what else to tell ya"
+                game.save()
+            except Exception as g:
+                print(g)
+                print(genre_data)
+            try:
+                if platform_data.windows:
+                    game.platform = platform_data.windows
+                else:
+                    game.platform = "unknown"
+                game.save()
+            except Exception as p:
+                print(p)
+                print(platform_data)
+            
+                
         else: 
             log.error("update game price response error: (Non 200)")
 
