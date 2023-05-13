@@ -5,7 +5,7 @@
       <link rel="stylesheet" type="text/css" href="{% static 'css/main.css' %}" />
 </head>
   <h1>Title: {{ Game.name }}</h1>
-  <div class="wraptext">
+  <div class="wraptext"> 
     <img src="{{ Game.cover.url }}" alt="Game Cover" height="450" width="300" class="blackborder" style="float:left; margin-right: 10px;">
     <div class="text">
     <p><strong>Price:</strong> $ {{ Game.price }}</p>

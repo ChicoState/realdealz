@@ -36,7 +36,7 @@ def updateGamePrices():
             about_data = soup.get_text().strip()
     
             platform_data = game_data.get('platforms')
-            
+             
             temp = game_data.get('genres')
             
             temp2= re.sub("[^a-zA-Z]",' ', str(temp))
