@@ -44,7 +44,7 @@ class Game(models.Model):
     def __str__(self):
         return f"{self.name} : ${self.price} - made by {self.developer}"
 
- 
+
     appid = models.IntegerField(primary_key=True, help_text='Unique ID for this particular game')
     name = models.CharField(max_length=100, default="-1", help_text='Game title')
     about =  models.CharField(max_length=100, default="IDK", help_text='About game')
