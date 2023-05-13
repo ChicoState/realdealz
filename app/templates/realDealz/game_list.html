@@ -1,74 +1,88 @@
-{% extends "search.html" %}
-{% block content %}
+{% extends "search.html" %} {% load static %} {% block content %}
 
-<style>
-  .blue {
-    color: blue;
-  }
-
-  li {
-    font-size: 18px;
-  }
-
-  table {
-    table-layout: fixed;  
-  }
-
-  th.id, td.id {
-    width: 50px;
-  }  
-
-  th.name, td.name {
-    width: 400px;
-  }
-
-  th.price, td.price {
-    width: 100px;
-  }
-
-  th.developer, td.developer {
-    width: 800px;
-  }
-
-  th, td {
-    word-wrap: break-word;
-  }
-
-</style>
-
+<link rel="stylesheet" href="{% static 'css/catalog.css' %}" />
+<script src="{% static 'js/catalog.js' %}"></script>
 
 
 <h1>Deals List</h1>
 <div class="buttonoverlay">
-  <label for="max_price" style="width: 110px;">Maximum Cost:</label>
-  <input type="text" name="max_price" id="max_price" style="width: 50px; color: black;">
-  <button onclick="Setmax()" class="blue">Filter</button>
-  <br>
-  <label for="max_price" style="width: 110px;">Minimum Cost:</label>
-  <input type="text" name="min_price" id="min_price" style="width: 50px; color: black;">
-  <button onclick="Setmin()" class="blue">Filter</button>
-  <br>
-  <label for="set_id" style="width: 110px;">ID:</label>
-  <input type="text" name="set_id" id="set_id" style="width: 50px; color: black;">
-  <button onclick="FindID()" class="blue">Filter</button>
-  <br>
-  <label for="set_dev" style="width: 110px;">Developer:</label>
-  <br>  
-  <input type="text" name="set_dev" id="set_dev" style="width: 160px; color: black;">
-  <button onclick="FindDev()" class="blue">Filter</button>    
-  <br>
-  <br>
-  <button class="blue" style="width: 110px;" id="highest">Sort by Highest Price</button>
-  <br>
-  <br>
-  <button class="blue" style="width: 110px;" id="lowest">Sort by Lowest Price</button>
-  <br>
-  <br>
+  <label for="max_price" style="width: 110px">Maximum Cost:</label>
+  <input type="text" name="max_price" id="max_price" style="width: 50px; color: black" />
+  <button onclick="(() => {
+    var params = new URLSearchParams(window.location.search);
+    var page = params.get('page');
+    SortFunction(undefined, page);
+  })()" class="blue">
+    Filter
+  </button>
+  <br />
+  <label for="max_price" style="width: 110px">Minimum Cost:</label>
+  <input type="text" name="min_price" id="min_price" style="width: 50px; color: black" />
+  <button onclick="(() => {
+    var params = new URLSearchParams(window.location.search);
+    var page = params.get('page');
+    SortFunction(undefined, page);
+  })()" class="blue">
+    Filter
+  </button>
+  <br />
+  <label for="set_id" style="width: 110px">ID:</label>
+  <input type="text" name="set_id" id="set_id" style="width: 50px; color: black" />
+  <button onclick="(() => {
+    var params = new URLSearchParams(window.location.search);
+    var page = params.get('page');
+    SortFunction(undefined, page);
+  })()" class="blue">
+    Filter
+  </button>
+  <br />
+  <label for="set_dev" style="width: 110px">Developer:</label>
+  <br />
+  <input type="text" name="set_dev" id="set_dev" style="width: 160px; color: black" />
+  <button onclick="(() => {
+    var params = new URLSearchParams(window.location.search);
+    var page = params.get('page');
+    SortFunction(undefined, page);
+  })()" class="blue">
+    Filter
+  </button>
+  <br />
+  <br />
+  <label for="set_title" style="width: 110px">Title:</label>
+  <br />
+  <input type="text" name="set_title" id="set_title" style="width: 160px; color: black" />
+  <button onclick="(() => {
+    var params = new URLSearchParams(window.location.search);
+    var page = params.get('page');
+    SortFunction(undefined, page);
+  })()" class="blue">
+    Filter
+  </button>
+  <br />
+  <br />
+  <button class="blue" onclick="(() => {
+    var params = new URLSearchParams(window.location.search);
+    var page = params.get('page');
+    SortFunction('desc', page);
+  })()" style="width: 110px" id="highest">
+    Sort by Highest Price
+  </button>
+  <br />
+  <br />
+  <button class="blue" onclick="(() => {
+    var params = new URLSearchParams(window.location.search);
+    var page = params.get('page');
+    SortFunction('asc', page);
+  })()" style="width: 110px" id="lowest">
+    Sort by Lowest Price
+  </button>
+  <br />
+  <br />
   <form method="post">
-    {% csrf_token %}    
-    <button class="blue" type="submit" name="clear" value="clear" style="width: 110px;">Clear Filters</button>
-  </form>   
-  <br>
+    {% csrf_token %}
+    <button class="blue" type="submit" name="clear" value="clear" style="width: 110px">Clear Filters</button>
+  </form>
+  <br />
 </div>
 
 <table class="tableorganizer" id="tablegames">
@@ -81,230 +95,32 @@
     </tr>
   </thead>
   <tbody>
-    {% if filtered_table %}
-      {% for Game in filtered_table %}
-      <tr>
-        <td class="id">{{ Game.appid }}</td>        
-        <td class="name"><a href="{{ Game.get_absolute_url }}">{{ Game.name }}</a></td>
-        <td class="price">$ {{ Game.price }}</td>
-        <td class="developer">{{ Game.developer }}</td>      
-      </tr>
-      {% endfor %}      
-    {% endif %}      
+    {% if filtered_table %} {% for Game in current_page %}
+    <tr>
+      <td class="id">{{ Game.appid }}</td>
+      <td class="name"><a href="{{ Game.get_absolute_url }}">{{ Game.name }}</a></td>
+      <td class="price">$ {{ Game.price }}</td>
+      <td class="developer">{{ Game.developer }}</td>
+    </tr>
+    {% endfor %} {% endif %}
   </tbody>
 </table>
 
+<br />
+<br />
+<br />
+<br />
+<br />
+<br />
 
-<br>
-<br>
-<br> 
-<br>
-<br>
-<br>
-
-{% comment %}
 <div class="centertext">
   <div class="pagination">
-    {% for num in games_page.paginator.page_range %}
-        {% if games_page.number == num %}
-            <span>{{ num }}</span>
-        {% elif num > games_page.number|add:'-3' and num < games_page.number|add:'3' %}
-            <a href="?page={{ num }}">{{ num }}</a>
-        {% endif %}
-    {% endfor %}
+    {% for num in current_page.paginator.page_range %} {% if current_page.number == num %}
+    <span>{{ num }}</span>
+    {% elif num > current_page.number|add:'-2' and num < current_page.number|add:'2' %} <a href="?page={{ num }}">{{ num
+      }}</a>
+      {% endif %} {% endfor %}
   </div>
 </div>
-{% endcomment %}
 
-
-
-
-
-<script>
-
-  //Find Developer
-  function FindDev(){
-    var userInput = document.getElementById("set_dev").value;
-    var table = document.getElementById("tablegames");
-    var rows = [];
-
-    // Iterate over the rows of the table
-    for (var i = 0; i < table.rows.length; i++) {
-        var row = table.rows[i];
-        var cell = row.cells[3];
-
-        if (cell.innerText.includes(userInput)) {
-          rows.push(row);
-        }
-    }
-
-    // Clear the table body
-    var tbody = table.getElementsByTagName("tbody")[0];
-    tbody.innerHTML = "";
-
-    // Rebuild the table with the sorted rows
-    for (var i = 0; i < rows.length; i++) {
-        tbody.appendChild(rows[i]);
-    }
-  }
-
-  //Find ID
-  function FindID(){
-    var userInput = document.getElementById("set_id").value;
-    var limit = parseInt(userInput);
-    var table = document.getElementById("tablegames");
-    var rows = [];
-
-    // Iterate over the rows of the table
-    for (var i = 0; i < table.rows.length; i++) {
-        var row = table.rows[i];
-        var cell = row.cells[0];
-        if (parseInt(cell.innerText) == limit) {
-          rows.push(row);
-        }
-    }
-
-    // Clear the table body
-    var tbody = table.getElementsByTagName("tbody")[0];
-    tbody.innerHTML = "";
-
-    // Rebuild the table with the sorted rows
-    for (var i = 0; i < rows.length; i++) {
-        tbody.appendChild(rows[i]);
-    }
-  }
-
-  //Set Minimum price
-  function Setmin(){
-    var userInput = document.getElementById("min_price").value;
-    var limit = parseFloat(userInput);
-    var table = document.getElementById("tablegames");
-    var rows = [];
-
-    // Iterate over the rows of the table
-    for (var i = 0; i < table.rows.length; i++) {
-        var row = table.rows[i];
-        var cell = row.cells[2];
-        var cellText = cell.innerText.replace('$', '').replace(',', '');
-
-        //Uncomment the line below to see what cellText contains
-        //console.log(parseFloat(cellText));
-
-        // Check if the cell value is less than or equal to the limit
-        if (parseFloat(cellText) >= limit) {
-          rows.push(row);
-        }
-    }
-
-    // Clear the table body
-    var tbody = table.getElementsByTagName("tbody")[0];
-    tbody.innerHTML = "";
-
-    // Rebuild the table with the sorted rows
-    for (var i = 0; i < rows.length; i++) {
-        tbody.appendChild(rows[i]);
-    }
-  }
-
-  //Set Maximum price
-  function Setmax(){
-    var userInput = document.getElementById("max_price").value;
-    var limit = parseFloat(userInput);
-    var table = document.getElementById("tablegames");
-    var rows = [];
-
-    // Iterate over the rows of the table
-    for (var i = 0; i < table.rows.length; i++) {
-        var row = table.rows[i];
-        var cell = row.cells[2];
-        var cellText = cell.innerText.replace('$', '').replace(',', '');
-
-        //Uncomment the line below to see what cellText contains
-        //console.log(parseFloat(cellText));
-
-        // Check if the cell value is less than or equal to the limit
-        if (parseFloat(cellText) <= limit) {
-          rows.push(row);
-        }
-    }
-
-    // Clear the table body
-    var tbody = table.getElementsByTagName("tbody")[0];
-    tbody.innerHTML = "";
-
-    // Rebuild the table with the sorted rows
-    for (var i = 0; i < rows.length; i++) {
-        tbody.appendChild(rows[i]);
-    }
-  }
-
-
-  //Activates when the page is loaded
-  document.addEventListener("DOMContentLoaded", function() {
-
-    //This code looks for the id "lowest" in the html page and triggers the function when a user clicks the id
-    document.getElementById("lowest").addEventListener("click", function() {
-
-      // Load table data into a variable, the table needs to have an id
-      var table = document.getElementById("tablegames");
-
-      // Create an array to store table rows
-      var rows = [];
-
-      // Iterate through table rows and store them in the array
-      for (var i = 0, row; row = table.rows[i]; i++) {
-          rows.push(row);
-      }
-
-      // Sort the array based on the value of the second cell (price)
-      rows.sort(function(a, b) {
-          var priceA = parseFloat(a.cells[2].innerHTML.replace(/[^0-9.]/g, ''));
-          var priceB = parseFloat(b.cells[2].innerHTML.replace(/[^0-9.]/g, ''));
-          return priceA - priceB;
-      });
-
-      // Clear the table body
-      var tbody = table.getElementsByTagName("tbody")[0];
-      tbody.innerHTML = "";
-
-      // Rebuild the table with the sorted rows
-      for (var i = 0; i < rows.length; i++) {
-          tbody.appendChild(rows[i]);
-      }
-    });
-
-
-    document.getElementById("highest").addEventListener("click", function() {
-
-      // Load table data into a variable
-      var table = document.getElementById("tablegames");
-
-      // Create an array to store table rows
-      var rows = [];
-
-      // Iterate through table rows and store them in the array
-      for (var i = 0, row; row = table.rows[i]; i++) {
-          rows.push(row);
-      }
-
-      // Sort the array based on the value of the second cell (price)
-      rows.sort(function(a, b) {
-          var priceA = parseFloat(a.cells[2].innerHTML.replace(/[^0-9.]/g, ''));
-          var priceB = parseFloat(b.cells[2].innerHTML.replace(/[^0-9.]/g, ''));
-          return priceB - priceA;
-      });
-
-      // Clear the table body
-      var tbody = table.getElementsByTagName("tbody")[0];
-      tbody.innerHTML = "";
-
-      // Rebuild the table with the sorted rows
-      for (var i = 0; i < rows.length; i++) {
-          tbody.appendChild(rows[i]);
-      }
-    });
-
-
-  });
-</script>
 {% endblock %}
