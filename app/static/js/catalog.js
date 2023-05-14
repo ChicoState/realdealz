@@ -79,9 +79,13 @@ function BuildTable(sortby, filters, data) {
 
     //Add the name value and add the appropriate hyperlink to it
     var name = document.createElement("td");
-    name.innerText = data[i].name;
+    const link = document.createElement('a');
+    link.href = data[i].appid;
+    link.innerText = data[i].name;
+    name.appendChild(link);
     name.classList.add('name');
     row.appendChild(name);
+
 
     //Formatting price correctly so that it doesn't look awkward in the table
     var price = document.createElement("td");
