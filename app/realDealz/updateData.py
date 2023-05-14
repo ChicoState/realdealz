@@ -56,7 +56,7 @@ def updateGamePrices():
                 if price_data.get('final_formatted') is not None:
                     price = price_data['final_formatted'].split("$")[1].split(" ")[0]
 
-                    print(f"{appid}: {price_data['final_formatted']} ... {price}")
+                    # print(f"{appid}: {price_data['final_formatted']} ... {price}")
                     game.price = price
                     game.discount = price_data.get('discount_percent', None)
                 else:
@@ -85,18 +85,14 @@ def updateGamePrices():
             except Exception as g:
                 print(g)
                 print(genre_data)
-            try:
-                if platform_data.windows:
-                    game.platform = platform_data.windows
-                else:
-                    game.platform = "unknown"
-                game.save()
-            except Exception as p:
-                print(p)
-                print(platform_data)
+                # if hasattr(platform_data, 'windows'):
+                    # game.platform = platform_data.windows
+                # else:
+                    # game.platform = "unknown"
+                # game.save()
+            # except Exception as p:
+                # print(p)
             
                 
-        else: 
-            log.error("update game price response error: (Non 200)")
 
-        conn.close()
+    conn.close()

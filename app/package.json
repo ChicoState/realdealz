@@ -1,0 +1,22 @@
+{
+  "name": "app",
+  "version": "1.0.0",
+  "description": "Testing Framework for Javascript functions",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "complexity": "complexity-report static/js/catalog.js"
+  },
+  "author": "J26001",
+  "license": "ISC",
+  "devDependencies": {
+    "eslint": "^8.40.0",
+    "jest": "^29.5.0"
+  },
+  "dependencies": {
+    "babel-eslint": "^10.1.0",
+    "eslint-plugin-complexity": "^1.0.2",
+    "jquery": "^3.6.4",
+    "jsdom": "^22.0.0"
+  }
+}

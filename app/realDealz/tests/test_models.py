@@ -29,8 +29,8 @@ class TestModels(TestCase):
     
     def test_game_initial_load(self):
         Game.initial_load()
-        game = Game.objects.filter(name='Terraria')
-        self.assertTrue(game.exists())
+        # Assert that the database contains at least 90 games 
+        self.assertGreaterEqual(Game.objects.count(), 90)
     
     def test_game_clear_all(self):
         Game.clear_all()
